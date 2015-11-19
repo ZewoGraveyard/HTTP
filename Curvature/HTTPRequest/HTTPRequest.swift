@@ -49,7 +49,7 @@ public struct HTTPRequest {
 }
 
 extension HTTPRequest {
-    var keepAlive: Bool {
+    public var keepAlive: Bool {
         return (headers["connection"]?.lowercaseString == "keep-alive") ?? false
     }
 }
@@ -64,11 +64,11 @@ extension HTTPRequest {
         )
     }
 
-    var bodyString: String? {
+    public var bodyString: String? {
         return String.fromCString(body + [0])
     }
 
-    var bodyHexString: String {
+    public var bodyHexString: String {
         var string = ""
         for (index, value) in body.enumerate() {
             if index % 2 == 0 && index > 0 {

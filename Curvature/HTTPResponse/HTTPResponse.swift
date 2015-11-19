@@ -69,11 +69,11 @@ extension HTTPResponse {
         )
     }
 
-    var bodyString: String? {
+    public var bodyString: String? {
         return String.fromCString(body + [0])
     }
 
-    var bodyHexString: String {
+    public var bodyHexString: String {
         var string = ""
         for (index, value) in body.enumerate() {
             if index % 2 == 0 && index > 0 {
