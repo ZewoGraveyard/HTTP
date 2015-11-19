@@ -26,6 +26,11 @@ public struct URI {
     public struct UserInfo {
         public let username: String
         public let password: String
+
+        init(username: String, password: String) {
+            self.username = username
+            self.password = password
+        }
     }
 
     public let scheme: String?
