@@ -417,6 +417,7 @@
 				PRODUCT_NAME = Curvature;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -579,6 +580,7 @@
 				PRODUCT_NAME = Curvature;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Dependencies";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
