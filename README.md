@@ -30,9 +30,9 @@ let response = HTTPResponse(status: .OK)
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build Currents.
+> CocoaPods 0.39.0+ is required to build Curvature.
 
-To integrate Currents into your Xcode project using CocoaPods, specify it in your `Podfile`:
+To integrate **Curvature** into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
