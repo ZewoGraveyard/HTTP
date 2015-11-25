@@ -54,7 +54,7 @@ public struct MediaType: CustomStringConvertible {
     }
 }
 
-extension MediaType : Hashable {
+extension MediaType: Hashable {
     public var hashValue: Int {
         return description.hashValue
     }

@@ -22,37 +22,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public struct URICredentials {
-    public let username: String
-    public let password: String
-    
-    public init(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-}
 
-extension URICredentials : Hashable {
-    public var hashValue: Int {
-        return username.hashValue ^ password.hashValue
-    }
-}
 
-public func ==(lhs: URICredentials, rhs: URICredentials) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-}
 
 public struct URI {
+    public struct UserInfo: Hashable {
+        public let username: String
+        public let password: String
+        
+        public init(username: String, password: String) {
+            self.username = username
+            self.password = password
+        }
+        
+        public var hashValue: Int {
+            return "\(username):\(password)".hashValue
+        }
+    }
 
     public let scheme: String?
-    public let userInfo: URICredentials?
+    public let userInfo: UserInfo?
     public let host: String?
     public let port: Int?
     public let path: String?
     public let query: [String: String]
     public let fragment: String?
 
-    public init(scheme: String? = nil, userInfo: URICredentials? = nil, host: String? = nil, port: Int? = nil, path: String? = nil, query: [String: String] = [:], fragment: String? = nil) {
+    public init(scheme: String? = nil, userInfo: UserInfo? = nil, host: String? = nil, port: Int? = nil, path: String? = nil, query: [String: String] = [:], fragment: String? = nil) {
         self.scheme = scheme
         self.userInfo = userInfo
         self.host = host
@@ -72,7 +68,7 @@ extension URI: CustomStringConvertible {
         }
 
         if let userInfo = userInfo {
-            string += "\(userInfo.username):\(userInfo.password)@"
+            string += "\(userInfo)@"
         }
 
         if let host = host {
@@ -103,12 +99,16 @@ extension URI: CustomStringConvertible {
     }
 }
 
-extension URI : Hashable {
+extension URI: Hashable {
     public var hashValue: Int {
         return description.hashValue
     }
 }
 
 public func ==(lhs: URI, rhs: URI) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+public func ==(lhs: URI.UserInfo, rhs: URI.UserInfo) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

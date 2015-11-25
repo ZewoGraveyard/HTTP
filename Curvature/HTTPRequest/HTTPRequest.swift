@@ -31,7 +31,6 @@ public struct HTTPRequest {
     public let body: [Int8]
 
     public var parameters: [String: String] = [:]
-    public var data: [String: Any] = [:]
     public var context: [String: Any] = [:]
 
     public init(method: HTTPMethod, uri: URI, majorVersion: Int = 1, minorVersion: Int = 1, var headers: [String: String] = [:], body: [Int8] = []) {
@@ -106,7 +105,7 @@ extension HTTPRequest: CustomStringConvertible {
     }
 }
 
-extension HTTPRequest : Hashable {
+extension HTTPRequest: Hashable {
     public var hashValue: Int {
         return description.hashValue
     }

@@ -107,7 +107,7 @@ extension HTTPMethod: CustomStringConvertible {
     }
 }
 
-extension HTTPMethod : Hashable {
+extension HTTPMethod: Hashable {
     public var hashValue: Int {
         return description.hashValue
     }

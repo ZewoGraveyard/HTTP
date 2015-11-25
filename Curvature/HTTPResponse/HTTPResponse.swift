@@ -105,7 +105,7 @@ extension HTTPResponse: CustomStringConvertible {
     }
 }
 
-extension HTTPResponse : Hashable {
+extension HTTPResponse: Hashable {
     public var hashValue: Int {
         return description.hashValue
     }
