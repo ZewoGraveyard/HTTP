@@ -49,12 +49,6 @@ public struct HTTPRequest {
 }
 
 extension HTTPRequest {
-    public var keepAlive: Bool {
-        return (headers["connection"]?.lowercaseString == "keep-alive") ?? false
-    }
-}
-
-extension HTTPRequest {
     public init(method: HTTPMethod, uri: URI, headers: [String: String] = [:], body: String) {
         self.init(
             method: method,
@@ -62,6 +56,17 @@ extension HTTPRequest {
             headers: headers,
             body: body.utf8.map { Int8($0) }
         )
+    }
+
+    public var keepAlive: Bool {
+        return (headers["connection"]?.lowercaseString == "keep-alive") ?? false
+    }
+
+    public var contentType: MediaType? {
+        if let contentType = headers["content-type"] {
+            return MediaType(string: contentType)
+        }
+        return nil
     }
 
     public var bodyString: String? {
@@ -99,4 +104,3 @@ extension HTTPRequest : CustomStringConvertible {
         return string
     }
 }
-

@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public enum HTTPStatus : Equatable {
+public enum HTTPStatus: Equatable {
     // MARK: Informational
     case Continue
     case SwitchingProtocols

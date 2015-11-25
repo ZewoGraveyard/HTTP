@@ -79,13 +79,13 @@ extension HTTPResponse {
             if index % 2 == 0 && index > 0 {
                 string += " "
             }
-            string += (value < 16 ? "0" : "") + String(value, radix: 16)
+            string += (value < 16 ? "0": "") + String(value, radix: 16)
         }
         return string
     }
 }
 
-extension HTTPResponse : CustomStringConvertible {
+extension HTTPResponse: CustomStringConvertible {
     public var description: String {
         var string = "HTTP/1.1 \(statusCode) \(reasonPhrase)\n"
 

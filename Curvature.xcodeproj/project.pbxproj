@@ -20,6 +20,10 @@
 		B03EF2BC1BFD787000858663 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2B01BFD786100858663 /* HTTPResponse.swift */; };
 		B03EF2BD1BFD787000858663 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2B11BFD786100858663 /* HTTPStatus.swift */; };
 		B03EF2BE1BFD787000858663 /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2B41BFD786100858663 /* URI.swift */; };
+		B09B60E91C0563D3002BE654 /* String+Curvature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B60E81C0563D3002BE654 /* String+Curvature.swift */; };
+		B09B60EA1C0563D3002BE654 /* String+Curvature.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B60E81C0563D3002BE654 /* String+Curvature.swift */; };
+		B09B60EC1C056450002BE654 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B60EB1C056450002BE654 /* MediaType.swift */; };
+		B09B60ED1C056450002BE654 /* MediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B60EB1C056450002BE654 /* MediaType.swift */; };
 		B0D5217B1BE4F753002063D5 /* Curvature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D521701BE4F753002063D5 /* Curvature.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,12 +49,14 @@
 		3A1C55921BECE19A006EC3F7 /* Curvature.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Curvature.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03EF2A71BFD77F200858663 /* CurvatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurvatureTests.swift; sourceTree = "<group>"; };
 		B03EF2A81BFD77F200858663 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B03EF2AD1BFD786100858663 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		B03EF2AE1BFD786100858663 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
-		B03EF2B01BFD786100858663 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
-		B03EF2B11BFD786100858663 /* HTTPStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
+		B03EF2AD1BFD786100858663 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPMethod.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B03EF2AE1BFD786100858663 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPRequest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B03EF2B01BFD786100858663 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPResponse.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B03EF2B11BFD786100858663 /* HTTPStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPStatus.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B03EF2B21BFD786100858663 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
-		B03EF2B41BFD786100858663 /* URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URI.swift; sourceTree = "<group>"; };
+		B03EF2B41BFD786100858663 /* URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = URI.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B09B60E81C0563D3002BE654 /* String+Curvature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Curvature.swift"; path = "String+Curvature/String+Curvature.swift"; sourceTree = "<group>"; };
+		B09B60EB1C056450002BE654 /* MediaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaType.swift; path = MediaType/MediaType.swift; sourceTree = "<group>"; };
 		B0D521701BE4F753002063D5 /* Curvature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Curvature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0D5217A1BE4F753002063D5 /* CurvatureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurvatureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -101,6 +107,8 @@
 		B03EF2AB1BFD786100858663 /* Curvature */ = {
 			isa = PBXGroup;
 			children = (
+				B09B60E71C05639E002BE654 /* String+Curvature */,
+				B09B60E31C05634B002BE654 /* MediaType */,
 				B03EF2AC1BFD786100858663 /* HTTPRequest */,
 				B03EF2AF1BFD786100858663 /* HTTPResponse */,
 				B03EF2B31BFD786100858663 /* URI */,
@@ -133,6 +141,22 @@
 				B03EF2B21BFD786100858663 /* Info.plist */,
 			);
 			path = URI;
+			sourceTree = "<group>";
+		};
+		B09B60E31C05634B002BE654 /* MediaType */ = {
+			isa = PBXGroup;
+			children = (
+				B09B60EB1C056450002BE654 /* MediaType.swift */,
+			);
+			name = MediaType;
+			sourceTree = "<group>";
+		};
+		B09B60E71C05639E002BE654 /* String+Curvature */ = {
+			isa = PBXGroup;
+			children = (
+				B09B60E81C0563D3002BE654 /* String+Curvature.swift */,
+			);
+			name = "String+Curvature";
 			sourceTree = "<group>";
 		};
 		B0D521661BE4F753002063D5 = {
@@ -328,7 +352,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03EF2BE1BFD787000858663 /* URI.swift in Sources */,
+				B09B60EA1C0563D3002BE654 /* String+Curvature.swift in Sources */,
 				B03EF2BC1BFD787000858663 /* HTTPResponse.swift in Sources */,
+				B09B60ED1C056450002BE654 /* MediaType.swift in Sources */,
 				B03EF2BA1BFD787000858663 /* HTTPMethod.swift in Sources */,
 				B03EF2BB1BFD787000858663 /* HTTPRequest.swift in Sources */,
 				B03EF2BD1BFD787000858663 /* HTTPStatus.swift in Sources */,
@@ -348,7 +374,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03EF2B91BFD786F00858663 /* URI.swift in Sources */,
+				B09B60E91C0563D3002BE654 /* String+Curvature.swift in Sources */,
 				B03EF2B71BFD786F00858663 /* HTTPResponse.swift in Sources */,
+				B09B60EC1C056450002BE654 /* MediaType.swift in Sources */,
 				B03EF2B51BFD786F00858663 /* HTTPMethod.swift in Sources */,
 				B03EF2B61BFD786F00858663 /* HTTPRequest.swift in Sources */,
 				B03EF2B81BFD786F00858663 /* HTTPStatus.swift in Sources */,

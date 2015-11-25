@@ -66,7 +66,7 @@ public enum HTTPMethod {
     case UNKNOWN
 }
 
-extension HTTPMethod : CustomStringConvertible {
+extension HTTPMethod: CustomStringConvertible {
     public var description: String {
         switch self {
         case .DELETE:      return "DELETE"

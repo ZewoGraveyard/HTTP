@@ -38,10 +38,10 @@ public struct URI {
     public let host: String?
     public let port: Int?
     public let path: String?
-    public let query: [String : String]
+    public let query: [String: String]
     public let fragment: String?
 
-    public init(scheme: String? = nil, userInfo: UserInfo? = nil, host: String? = nil, port: Int? = nil, path: String? = nil, query: [String : String] = [:], fragment: String? = nil) {
+    public init(scheme: String? = nil, userInfo: UserInfo? = nil, host: String? = nil, port: Int? = nil, path: String? = nil, query: [String: String] = [:], fragment: String? = nil) {
         self.scheme = scheme
         self.userInfo = userInfo
         self.host = host
@@ -52,7 +52,7 @@ public struct URI {
     }
 }
 
-extension URI : CustomStringConvertible {
+extension URI: CustomStringConvertible {
     public var description: String {
         var string = ""
 
