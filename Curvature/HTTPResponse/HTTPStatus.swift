@@ -294,6 +294,12 @@ public enum HTTPStatus: Equatable {
     }
 }
 
+extension HTTPStatus: Hashable {
+    public var hashValue: Int {
+        return statusCode
+    }
+}
+
 public func ==(lhs: HTTPStatus, rhs: HTTPStatus) -> Bool {
-    return lhs.statusCode == rhs.statusCode
+    return lhs.hashValue == rhs.hashValue
 }

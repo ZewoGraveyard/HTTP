@@ -22,14 +22,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+
+
+
 public struct URI {
-    public struct UserInfo {
+    public struct UserInfo: Hashable, CustomStringConvertible {
         public let username: String
         public let password: String
-
+        
         public init(username: String, password: String) {
             self.username = username
             self.password = password
+        }
+        
+        public var hashValue: Int {
+            return description.hashValue
+        }
+        
+        public var description: String {
+            return "\(username):\(password)"
         }
     }
 
@@ -61,7 +72,7 @@ extension URI: CustomStringConvertible {
         }
 
         if let userInfo = userInfo {
-            string += "\(userInfo.username):\(userInfo.password)@"
+            string += "\(userInfo)@"
         }
 
         if let host = host {
@@ -90,4 +101,18 @@ extension URI: CustomStringConvertible {
 
         return string
     }
+}
+
+extension URI: Hashable {
+    public var hashValue: Int {
+        return description.hashValue
+    }
+}
+
+public func ==(lhs: URI, rhs: URI) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+public func ==(lhs: URI.UserInfo, rhs: URI.UserInfo) -> Bool {
+    return lhs.hashValue == rhs.hashValue
 }

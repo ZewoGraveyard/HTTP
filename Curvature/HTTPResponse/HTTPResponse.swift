@@ -104,3 +104,13 @@ extension HTTPResponse: CustomStringConvertible {
         return string
     }
 }
+
+extension HTTPResponse: Hashable {
+    public var hashValue: Int {
+        return description.hashValue
+    }
+}
+
+public func ==(lhs: HTTPResponse, rhs: HTTPResponse) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}

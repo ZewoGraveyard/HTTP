@@ -53,3 +53,13 @@ public struct MediaType: CustomStringConvertible {
         self.parameters = parameters
     }
 }
+
+extension MediaType: Hashable {
+    public var hashValue: Int {
+        return description.hashValue
+    }
+}
+
+public func ==(lhs: MediaType, rhs: MediaType) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
