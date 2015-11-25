@@ -56,7 +56,7 @@
 		B03EF2B21BFD786100858663 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		B03EF2B41BFD786100858663 /* URI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = URI.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B09B60E81C0563D3002BE654 /* String+Curvature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Curvature.swift"; path = "String+Curvature/String+Curvature.swift"; sourceTree = "<group>"; };
-		B09B60EB1C056450002BE654 /* MediaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaType.swift; path = MediaType/MediaType.swift; sourceTree = "<group>"; };
+		B09B60EB1C056450002BE654 /* MediaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = MediaType.swift; path = MediaType/MediaType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B0D521701BE4F753002063D5 /* Curvature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Curvature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0D5217A1BE4F753002063D5 /* CurvatureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurvatureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */

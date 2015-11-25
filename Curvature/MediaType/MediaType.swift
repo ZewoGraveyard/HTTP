@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public struct MediaType : CustomStringConvertible {
+public struct MediaType: CustomStringConvertible {
     public let type: String
     public let parameters: [String: String]
 

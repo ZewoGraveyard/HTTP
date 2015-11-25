@@ -30,8 +30,8 @@ public struct HTTPRequest {
     public let headers: [String: String]
     public let body: [Int8]
 
-    public var parameters: [String : String] = [:]
-    public var data: [String : String] = [:]
+    public var parameters: [String: String] = [:]
+    public var data: [String: Any] = [:]
 
     public init(method: HTTPMethod, uri: URI, majorVersion: Int = 1, minorVersion: Int = 1, var headers: [String: String] = [:], body: [Int8] = []) {
         self.method = method
@@ -85,7 +85,7 @@ extension HTTPRequest {
     }
 }
 
-extension HTTPRequest : CustomStringConvertible {
+extension HTTPRequest: CustomStringConvertible {
     public var description: String {
         var string = "\(method) \(uri) HTTP/1.1\n"
 
