@@ -26,7 +26,7 @@
 
 
 public struct URI {
-    public struct UserInfo: Hashable {
+    public struct UserInfo: Hashable, CustomStringConvertible {
         public let username: String
         public let password: String
         
@@ -36,7 +36,11 @@ public struct URI {
         }
         
         public var hashValue: Int {
-            return "\(username):\(password)".hashValue
+            return description.hashValue
+        }
+        
+        public var description: String {
+            return "\(username):\(password)"
         }
     }
 
