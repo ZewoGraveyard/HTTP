@@ -22,9 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
-
-
 public struct URI {
     public struct UserInfo: Hashable, CustomStringConvertible {
         public let username: String
@@ -58,7 +55,19 @@ public struct URI {
         self.host = host
         self.port = port
         self.path = path
-        self.query = query
+
+        var parsedQuery: [String: String] = [:]
+
+        for (key, value) in query {
+            if let
+                parsedKey = String(URLEncodedString: key),
+                parsedValue = String(URLEncodedString: value) {
+                    parsedQuery[parsedKey] = parsedValue
+            }
+        }
+
+        self.query = parsedQuery
+        
         self.fragment = fragment
     }
 }

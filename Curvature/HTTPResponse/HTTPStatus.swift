@@ -88,7 +88,7 @@ public enum HTTPStatus: Equatable {
     // MARK: Raw
     case Raw(statusCode: Int, reasonPhrase: String)
 
-    init(statusCode: Int, reasonPhrase: String = "") {
+    public init(statusCode: Int, reasonPhrase: String = "") {
         switch statusCode {
         case Continue.statusCode:                      self = Continue
         case SwitchingProtocols.statusCode:            self = SwitchingProtocols
@@ -156,7 +156,7 @@ public enum HTTPStatus: Equatable {
         }
     }
 
-    var statusCode: Int {
+    public var statusCode: Int {
         switch self {
         case .Continue:                      return 100
         case .SwitchingProtocols:            return 101
@@ -225,7 +225,7 @@ public enum HTTPStatus: Equatable {
         }
     }
 
-    var reasonPhrase: String {
+    public var reasonPhrase: String {
         switch self {
         case .Continue:                      return "Continue"
         case .SwitchingProtocols:            return "Switching Protocols"

@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3A1C55911BECE19A006EC3F7"
-               BuildableName = "Curvature.xctest"
+               BuildableName = "CurvatureTests.xctest"
                BlueprintName = "Curvature iOS Tests"
                ReferencedContainer = "container:Curvature.xcodeproj">
             </BuildableReference>

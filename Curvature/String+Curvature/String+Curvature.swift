@@ -23,20 +23,83 @@
 // SOFTWARE.
 
 extension String {
-    func splitBy(separator: Character, allowEmptySlices: Bool = false) -> [String] {
+    public init?(URLEncodedString: String) {
+        let spaceCharacter: UInt8 = 32
+        let percentCharacter: UInt8 = 37
+        let plusCharacter: UInt8 = 43
+
+        var encodedData: [UInt8] = [] + URLEncodedString.utf8
+        var decodedData: [UInt8] = []
+
+        for var i = 0; i < encodedData.count; {
+            let currentCharacter = encodedData[i]
+
+            switch currentCharacter {
+            case percentCharacter:
+                let unicodeA = UnicodeScalar(encodedData[i + 1])
+                let unicodeB = UnicodeScalar(encodedData[i + 2])
+
+                let hexString = "\(unicodeA)\(unicodeB)"
+
+                guard let character = Int(hexString: hexString) else {
+                    return nil
+                }
+
+                decodedData.append(UInt8(character))
+                i += 3
+
+            case plusCharacter:
+                decodedData.append(spaceCharacter)
+                i++
+
+            default:
+                decodedData.append(currentCharacter)
+                i++
+            }
+        }
+
+        self.init(data: decodedData)
+    }
+
+    public init?(data: [Int8]) {
+        if let string = String.fromCString(data + [0]) {
+            self.init(string)
+        }
+        return nil
+    }
+
+    public init?(data: [UInt8]) {
+        var string = ""
+        var decoder = UTF8()
+        var generator = data.generate()
+        var finished = false
+
+        while !finished {
+            let decodingResult = decoder.decode(&generator)
+            switch decodingResult {
+            case .Result(let char): string.append(char)
+            case .EmptyInput: finished = true
+            case .Error: return nil
+            }
+        }
+
+        self.init(string)
+    }
+
+    public func splitBy(separator: Character, allowEmptySlices: Bool = false) -> [String] {
         return characters.split(allowEmptySlices: allowEmptySlices) { $0 == separator }.map { String($0) }
     }
 
-    func trim() -> String {
+    public func trim() -> String {
         return stringByTrimmingCharactersInSet(CharacterSet.whitespaceAndNewline)
     }
 
-    func stringByTrimmingCharactersInSet(characterSet: Set<Character>) -> String {
+    public func stringByTrimmingCharactersInSet(characterSet: Set<Character>) -> String {
         let string = stringByTrimmingFromStartCharactersInSet(characterSet)
         return string.stringByTrimmingFromEndCharactersInSet(characterSet)
     }
 
-    private func stringByTrimmingFromStartCharactersInSet(characterSet: Set<Character>) -> String {
+    public  func stringByTrimmingFromStartCharactersInSet(characterSet: Set<Character>) -> String {
         var trimStartIndex: Int = characters.count
 
         for (index, character) in characters.enumerate() {
@@ -49,22 +112,22 @@ extension String {
         return self[startIndex.advancedBy(trimStartIndex) ..< endIndex]
     }
 
-    private func stringByTrimmingFromEndCharactersInSet(characterSet: Set<Character>) -> String {
-        var trimEndIndex: Int = characters.count
+    public  func stringByTrimmingFromEndCharactersInSet(characterSet: Set<Character>) -> String {
+        var endIndex: Int = characters.count
 
         for (index, character) in characters.reverse().enumerate() {
             if !characterSet.contains(character) {
-                trimEndIndex = index
+                endIndex = index
                 break
             }
         }
 
-        return self[startIndex ..< startIndex.advancedBy(characters.count - trimEndIndex)]
+        return self[startIndex ..< startIndex.advancedBy(characters.count - endIndex)]
     }
 }
 
-struct CharacterSet {
-    static var whitespaceAndNewline: Set<Character> {
+public struct CharacterSet {
+    public static var whitespaceAndNewline: Set<Character> {
         return [" ", "\n"]
     }
 }

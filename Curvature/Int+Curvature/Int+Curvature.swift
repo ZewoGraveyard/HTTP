@@ -1,4 +1,4 @@
-// CurvatureTests.swift
+// Int+Curvature.swift
 //
 // The MIT License (MIT)
 //
@@ -22,12 +22,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import XCTest
-import Curvature
+extension Int {
+    public init?(hexString: String) {
+        struct Error: ErrorType {}
 
-class CurvatureTests: XCTestCase {
-    func testExample() {
-        let uri = URI(query: ["text": "a%20vida%20%C3%A9%20bela"])
-        print(uri.query["text"])
+        let map = [
+            "0": 0,  "1": 1,  "2": 2,  "3": 3,
+            "4": 4,  "5": 5,  "6": 6,  "7": 7,
+            "8": 8,  "9": 9,  "A": 10, "B": 11,
+            "C": 12, "D": 13, "E": 14, "F": 15
+        ]
+
+        let number = try? hexString.uppercaseString.unicodeScalars.reduce(0) {
+            let digitCharacter = String($1)
+            guard let digit = map[digitCharacter] else { throw Error() }
+            return $0 * 16 + digit
+        }
+
+        if let number = number {
+            self.init(number)
+        } else {
+            return nil
+        }
     }
 }
