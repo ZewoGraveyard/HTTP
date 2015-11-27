@@ -33,55 +33,64 @@ public struct HTTPRequest {
     public var parameters: [String: String] = [:]
     public var context: [String: Any] = [:]
 
-    public init(method: HTTPMethod, uri: URI, majorVersion: Int = 1, minorVersion: Int = 1, var headers: [String: String] = [:], body: [Int8] = []) {
+    public init(method: HTTPMethod, uri: URI, majorVersion: Int, minorVersion: Int, headers: [String: String], body: [Int8]) {
         self.method = method
         self.uri = uri
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
-
-        if body.count > 0 {
-            headers["content-length"] = "\(body.count)"
-        }
-
         self.headers = headers
         self.body = body
     }
 }
 
 extension HTTPRequest {
+    public init(method: HTTPMethod, uri: URI, var headers: [String: String] = [:], body: [Int8] = []) {
+        self.method = method
+        self.uri = uri
+        self.majorVersion = 1
+        self.minorVersion = 1
+
+        if body.count > 0 {
+            headers["Content-Length"] = "\(body.count)"
+        }
+
+        self.headers = headers
+        self.body = body
+    }
+
     public init(method: HTTPMethod, uri: URI, headers: [String: String] = [:], body: String) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
-            body: body.utf8.map { Int8($0) }
+            body: body.data
         )
     }
 
+    public func getHeader(header: String) -> String? {
+        for (key, value) in headers where key.lowercaseString == header.lowercaseString {
+            return value
+        }
+        return nil
+    }
+
     public var keepAlive: Bool {
-        return (headers["connection"]?.lowercaseString == "keep-alive") ?? false
+        return (getHeader("connection")?.lowercaseString == "keep-alive") ?? false
     }
 
     public var contentType: MediaType? {
-        if let contentType = headers["content-type"] {
+        if let contentType = getHeader("content-type") {
             return MediaType(string: contentType)
         }
         return nil
     }
 
     public var bodyString: String? {
-        return String.fromCString(body + [0])
+        return String(data: body)
     }
 
     public var bodyHexString: String {
-        var string = ""
-        for (index, value) in body.enumerate() {
-            if index % 2 == 0 && index > 0 {
-                string += " "
-            }
-            string += (value < 16 ? "0" : "") + String(value, radix: 16)
-        }
-        return string
+        return body.hexString
     }
 }
 

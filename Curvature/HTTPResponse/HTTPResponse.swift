@@ -30,22 +30,31 @@ public struct HTTPResponse {
     public let headers: [String: String]
     public let body: [Int8]
 
-    public init(statusCode: Int, reasonPhrase: String, majorVersion: Int = 1, minorVersion: Int = 1, var headers: [String: String] = [:], body: [Int8] = []) {
+    public init(statusCode: Int, reasonPhrase: String, majorVersion: Int, minorVersion: Int, headers: [String: String], body: [Int8]) {
         self.statusCode = statusCode
         self.reasonPhrase = reasonPhrase
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
-
-        if body.count > 0 {
-            headers["content-length"] = "\(body.count)"
-        }
-        
         self.headers = headers
         self.body = body
     }
 }
 
 extension HTTPResponse {
+    public init(statusCode: Int, reasonPhrase: String, var headers: [String: String] = [:], body: [Int8] = []) {
+        self.statusCode = statusCode
+        self.reasonPhrase = reasonPhrase
+        self.majorVersion = 1
+        self.minorVersion = 1
+
+        if body.count > 0 {
+            headers["Content-Length"] = "\(body.count)"
+        }
+
+        self.headers = headers
+        self.body = body
+    }
+
     public init(status: HTTPStatus, headers: [String: String] = [:], body: [Int8] = []) {
         self.init(
             statusCode: status.statusCode,
@@ -55,33 +64,24 @@ extension HTTPResponse {
         )
     }
 
-    public var status: HTTPStatus {
-        return HTTPStatus(statusCode: statusCode)
-    }
-}
-
-extension HTTPResponse {
     public init(status: HTTPStatus, headers: [String: String] = [:], body: String) {
         self.init(
             status: status,
             headers: headers,
-            body: body.utf8.map({Int8($0)})
+            body: body.data
         )
     }
 
+    public var status: HTTPStatus {
+        return HTTPStatus(statusCode: statusCode)
+    }
+
     public var bodyString: String? {
-        return String.fromCString(body + [0])
+        return String(data: body)
     }
 
     public var bodyHexString: String {
-        var string = ""
-        for (index, value) in body.enumerate() {
-            if index % 2 == 0 && index > 0 {
-                string += " "
-            }
-            string += (value < 16 ? "0": "") + String(value, radix: 16)
-        }
-        return string
+        return body.hexString
     }
 }
 

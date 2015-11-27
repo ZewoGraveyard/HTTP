@@ -34,8 +34,9 @@ extension Int {
         ]
 
         let number = try? hexString.uppercaseString.unicodeScalars.reduce(0) {
-            let digitCharacter = String($1)
-            guard let digit = map[digitCharacter] else { throw Error() }
+            let character = String($1)
+            if character == " " { return $0 }
+            guard let digit = map[character] else { throw Error() }
             return $0 * 16 + digit
         }
 
@@ -44,5 +45,18 @@ extension Int {
         } else {
             return nil
         }
+    }
+}
+
+extension CollectionType where Self.Generator.Element == Int8 {
+    var hexString: String {
+        var string = ""
+        for (index, value) in self.enumerate() {
+            if index % 2 == 0 && index > 0 {
+                string += " "
+            }
+            string += (value < 16 ? "0" : "") + String(value, radix: 16)
+        }
+        return string
     }
 }

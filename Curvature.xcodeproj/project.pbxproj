@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A1C55931BECE19B006EC3F7 /* Curvature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1C55891BECE19A006EC3F7 /* Curvature.framework */; };
-		B03EF2A91BFD77F900858663 /* CurvatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2A71BFD77F200858663 /* CurvatureTests.swift */; };
-		B03EF2AA1BFD77F900858663 /* CurvatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2A71BFD77F200858663 /* CurvatureTests.swift */; };
+		B019A6251C08233500EADB02 /* CurvatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B019A6241C08233500EADB02 /* CurvatureTests.swift */; };
+		B019A6261C08233500EADB02 /* CurvatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B019A6241C08233500EADB02 /* CurvatureTests.swift */; };
 		B03EF2B51BFD786F00858663 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2AD1BFD786100858663 /* HTTPMethod.swift */; };
 		B03EF2B61BFD786F00858663 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2AE1BFD786100858663 /* HTTPRequest.swift */; };
 		B03EF2B71BFD786F00858663 /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03EF2B01BFD786100858663 /* HTTPResponse.swift */; };
@@ -49,7 +49,7 @@
 /* Begin PBXFileReference section */
 		3A1C55891BECE19A006EC3F7 /* Curvature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Curvature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A1C55921BECE19A006EC3F7 /* CurvatureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurvatureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B03EF2A71BFD77F200858663 /* CurvatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurvatureTests.swift; sourceTree = "<group>"; };
+		B019A6241C08233500EADB02 /* CurvatureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurvatureTests.swift; sourceTree = "<group>"; };
 		B03EF2A81BFD77F200858663 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B03EF2AD1BFD786100858663 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPMethod.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B03EF2AE1BFD786100858663 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HTTPRequest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -101,8 +101,8 @@
 		B03EF2A61BFD77F200858663 /* Curvature Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B03EF2A71BFD77F200858663 /* CurvatureTests.swift */,
 				B03EF2A81BFD77F200858663 /* Info.plist */,
+				B019A6241C08233500EADB02 /* CurvatureTests.swift */,
 			);
 			path = "Curvature Tests";
 			sourceTree = "<group>";
@@ -378,7 +378,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B03EF2AA1BFD77F900858663 /* CurvatureTests.swift in Sources */,
+				B019A6261C08233500EADB02 /* CurvatureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B03EF2A91BFD77F900858663 /* CurvatureTests.swift in Sources */,
+				B019A6251C08233500EADB02 /* CurvatureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +468,7 @@
 		3A1C559E1BECE19B006EC3F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Curvature Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -475,12 +476,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zewo.CurvatureTests;
 				PRODUCT_NAME = CurvatureTests;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		3A1C559F1BECE19B006EC3F7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Curvature Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;

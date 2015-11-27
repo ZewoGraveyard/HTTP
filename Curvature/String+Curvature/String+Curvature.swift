@@ -86,6 +86,10 @@ extension String {
         self.init(string)
     }
 
+    var data: [Int8] {
+        return self.utf8.map { Int8($0) }
+    }
+
     public func splitBy(separator: Character, allowEmptySlices: Bool = false) -> [String] {
         return characters.split(allowEmptySlices: allowEmptySlices) { $0 == separator }.map { String($0) }
     }

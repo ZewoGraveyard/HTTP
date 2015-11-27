@@ -67,7 +67,6 @@ public struct URI {
         }
 
         self.query = parsedQuery
-        
         self.fragment = fragment
     }
 }

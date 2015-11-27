@@ -26,6 +26,11 @@ public struct MediaType: CustomStringConvertible {
     public let type: String
     public let parameters: [String: String]
 
+    public init(type: String, parameters: [String: String] = [:]) {
+        self.type = type
+        self.parameters = parameters
+    }
+
     public var description: String {
         return "\(type);" + parameters.reduce("") { $0 + " \($1.0)=\($1.1)" }
     }
@@ -61,5 +66,9 @@ extension MediaType: Hashable {
 }
 
 public func ==(lhs: MediaType, rhs: MediaType) -> Bool {
-    return lhs.hashValue == rhs.hashValue
+    return lhs.type == rhs.type
 }
+
+let JSONMediaType = MediaType(type: "application/json", parameters: ["charset": "utf-8"])
+let XMLMediaType = MediaType(type: "application/xml", parameters: ["charset": "utf-8"])
+let URLEncodedFormMediaType = MediaType(type: "application/x-www-form-urlencoded")
