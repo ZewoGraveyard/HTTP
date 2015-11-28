@@ -23,6 +23,10 @@
 		B019A7091C09274C00EADB02 /* HTTP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1C55891BECE19A006EC3F7 /* HTTP.framework */; };
 		B019A7181C0927DA00EADB02 /* HTTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B019A7131C09279C00EADB02 /* HTTPTests.swift */; };
 		B019A7191C0927DB00EADB02 /* HTTPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B019A7131C09279C00EADB02 /* HTTPTests.swift */; };
+		B0B0A3FC1C09CB77005E92B0 /* HTTPFallibleResponderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0A3FB1C09CB77005E92B0 /* HTTPFallibleResponderType.swift */; };
+		B0B0A3FD1C09CB77005E92B0 /* HTTPFallibleResponderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0A3FB1C09CB77005E92B0 /* HTTPFallibleResponderType.swift */; };
+		B0B0A4021C09CB82005E92B0 /* HTTPResponderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0A4011C09CB82005E92B0 /* HTTPResponderType.swift */; };
+		B0B0A4031C09CB82005E92B0 /* HTTPResponderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B0A4011C09CB82005E92B0 /* HTTPResponderType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +101,8 @@
 		B019A7041C09274C00EADB02 /* HTTPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B019A7131C09279C00EADB02 /* HTTPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTests.swift; sourceTree = "<group>"; };
 		B019A7141C09279C00EADB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0B0A3FB1C09CB77005E92B0 /* HTTPFallibleResponderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPFallibleResponderType.swift; sourceTree = "<group>"; };
+		B0B0A4011C09CB82005E92B0 /* HTTPResponderType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponderType.swift; sourceTree = "<group>"; };
 		B0D521701BE4F753002063D5 /* HTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +147,8 @@
 				B019A6C91C09227400EADB02 /* HTTPRequest */,
 				B019A6CC1C09227400EADB02 /* HTTPResponse */,
 				B019A6CF1C09227400EADB02 /* MediaType */,
+				B0B0A4001C09CB82005E92B0 /* HTTPResponderType */,
+				B0B0A3FA1C09CB77005E92B0 /* HTTPFallibleResponderType */,
 			);
 			path = HTTP;
 			sourceTree = "<group>";
@@ -176,8 +184,8 @@
 			children = (
 				B019A6E31C09257000EADB02 /* URI.framework */,
 				B019A6E51C09257000EADB02 /* URI.framework */,
-				B019A6E71C09257000EADB02 /* URI.xctest */,
-				B019A6E91C09257000EADB02 /* URI.xctest */,
+				B019A6E71C09257000EADB02 /* URITests.xctest */,
+				B019A6E91C09257000EADB02 /* URITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,6 +197,22 @@
 				B019A7141C09279C00EADB02 /* Info.plist */,
 			);
 			path = "HTTP Tests";
+			sourceTree = "<group>";
+		};
+		B0B0A3FA1C09CB77005E92B0 /* HTTPFallibleResponderType */ = {
+			isa = PBXGroup;
+			children = (
+				B0B0A3FB1C09CB77005E92B0 /* HTTPFallibleResponderType.swift */,
+			);
+			path = HTTPFallibleResponderType;
+			sourceTree = "<group>";
+		};
+		B0B0A4001C09CB82005E92B0 /* HTTPResponderType */ = {
+			isa = PBXGroup;
+			children = (
+				B0B0A4011C09CB82005E92B0 /* HTTPResponderType.swift */,
+			);
+			path = HTTPResponderType;
 			sourceTree = "<group>";
 		};
 		B0D521661BE4F753002063D5 = {
@@ -374,18 +398,16 @@
 			remoteRef = B019A6E41C09257000EADB02 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B019A6E71C09257000EADB02 /* URI.xctest */ = {
+		B019A6E71C09257000EADB02 /* URITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			name = URI.xctest;
 			path = URITests.xctest;
 			remoteRef = B019A6E61C09257000EADB02 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B019A6E91C09257000EADB02 /* URI.xctest */ = {
+		B019A6E91C09257000EADB02 /* URITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			name = URI.xctest;
 			path = URITests.xctest;
 			remoteRef = B019A6E81C09257000EADB02 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -428,7 +450,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B0A4031C09CB82005E92B0 /* HTTPResponderType.swift in Sources */,
 				B019A6DA1C09227400EADB02 /* MediaType.swift in Sources */,
+				B0B0A3FD1C09CB77005E92B0 /* HTTPFallibleResponderType.swift in Sources */,
 				B019A6D61C09227400EADB02 /* HTTPResponse.swift in Sources */,
 				B019A6D21C09227400EADB02 /* HTTPMethod.swift in Sources */,
 				B019A6D41C09227400EADB02 /* HTTPRequest.swift in Sources */,
@@ -456,7 +480,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B0A4021C09CB82005E92B0 /* HTTPResponderType.swift in Sources */,
 				B019A6D91C09227400EADB02 /* MediaType.swift in Sources */,
+				B0B0A3FC1C09CB77005E92B0 /* HTTPFallibleResponderType.swift in Sources */,
 				B019A6D51C09227400EADB02 /* HTTPResponse.swift in Sources */,
 				B019A6D11C09227400EADB02 /* HTTPMethod.swift in Sources */,
 				B019A6D31C09227400EADB02 /* HTTPRequest.swift in Sources */,
