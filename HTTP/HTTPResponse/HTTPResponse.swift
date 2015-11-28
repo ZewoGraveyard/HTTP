@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import URI
+
 public struct HTTPResponse {
     public let statusCode: Int
     public let reasonPhrase: String

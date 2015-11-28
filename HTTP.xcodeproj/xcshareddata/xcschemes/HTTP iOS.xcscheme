@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B0D5216F1BE4F753002063D5"
-               BuildableName = "Curvature.framework"
-               BlueprintName = "Curvature OSX"
-               ReferencedContainer = "container:Curvature.xcodeproj">
+               BlueprintIdentifier = "3A1C55881BECE19A006EC3F7"
+               BuildableName = "HTTP.framework"
+               BlueprintName = "HTTP iOS"
+               ReferencedContainer = "container:HTTP.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B019A7031C09274C00EADB02"
+               BuildableName = "HTTPTests.xctest"
+               BlueprintName = "HTTP iOS Tests"
+               ReferencedContainer = "container:HTTP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,20 +47,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B0D521791BE4F753002063D5"
-               BuildableName = "CurvatureTests.xctest"
-               BlueprintName = "Curvature OSX Tests"
-               ReferencedContainer = "container:Curvature.xcodeproj">
+               BlueprintIdentifier = "B019A7031C09274C00EADB02"
+               BuildableName = "HTTPTests.xctest"
+               BlueprintName = "HTTP iOS Tests"
+               ReferencedContainer = "container:HTTP.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B0D5216F1BE4F753002063D5"
-            BuildableName = "Curvature.framework"
-            BlueprintName = "Curvature OSX"
-            ReferencedContainer = "container:Curvature.xcodeproj">
+            BlueprintIdentifier = "3A1C55881BECE19A006EC3F7"
+            BuildableName = "HTTP.framework"
+            BlueprintName = "HTTP iOS"
+            ReferencedContainer = "container:HTTP.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,10 +79,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B0D5216F1BE4F753002063D5"
-            BuildableName = "Curvature.framework"
-            BlueprintName = "Curvature OSX"
-            ReferencedContainer = "container:Curvature.xcodeproj">
+            BlueprintIdentifier = "3A1C55881BECE19A006EC3F7"
+            BuildableName = "HTTP.framework"
+            BlueprintName = "HTTP iOS"
+            ReferencedContainer = "container:HTTP.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,10 +97,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B0D5216F1BE4F753002063D5"
-            BuildableName = "Curvature.framework"
-            BlueprintName = "Curvature OSX"
-            ReferencedContainer = "container:Curvature.xcodeproj">
+            BlueprintIdentifier = "3A1C55881BECE19A006EC3F7"
+            BuildableName = "HTTP.framework"
+            BlueprintName = "HTTP iOS"
+            ReferencedContainer = "container:HTTP.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

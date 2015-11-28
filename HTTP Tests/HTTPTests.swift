@@ -1,4 +1,4 @@
-// Int+Curvature.swift
+// HTTPTests.swift
 //
 // The MIT License (MIT)
 //
@@ -22,41 +22,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-extension Int {
-    public init?(hexString: String) {
-        struct Error: ErrorType {}
+import XCTest
+import HTTP
+import URI
 
-        let map = [
-            "0": 0,  "1": 1,  "2": 2,  "3": 3,
-            "4": 4,  "5": 5,  "6": 6,  "7": 7,
-            "8": 8,  "9": 9,  "A": 10, "B": 11,
-            "C": 12, "D": 13, "E": 14, "F": 15
-        ]
-
-        let number = try? hexString.uppercaseString.unicodeScalars.reduce(0) {
-            let character = String($1)
-            if character == " " { return $0 }
-            guard let digit = map[character] else { throw Error() }
-            return $0 * 16 + digit
-        }
-
-        if let number = number {
-            self.init(number)
-        } else {
-            return nil
-        }
-    }
-}
-
-extension CollectionType where Self.Generator.Element == Int8 {
-    var hexString: String {
-        var string = ""
-        for (index, value) in self.enumerate() {
-            if index % 2 == 0 && index > 0 {
-                string += " "
-            }
-            string += (value < 16 ? "0" : "") + String(value, radix: 16)
-        }
-        return string
+class HTTPTests: XCTestCase {
+    func test() {
+        let request = HTTPRequest(method: .GET, uri: URI(path: "/"))
+        let response = HTTPResponse(status: .OK)
+        print(request)
+        print(response)
     }
 }

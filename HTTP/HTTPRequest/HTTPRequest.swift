@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import URI
+
 public struct HTTPRequest {
     public let method: HTTPMethod
     public let uri: URI
