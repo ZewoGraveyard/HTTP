@@ -1,4 +1,4 @@
-[submodule "Dependencies/URI"]
-	path = Dependencies/URI
+[submodule "URI"]
+	path = URI
 	url = https://github.com/Zewo/URI.git
-    branch = master
+	branch = master
