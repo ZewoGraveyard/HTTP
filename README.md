@@ -7,7 +7,7 @@ HTTP
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-Compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-**HTTP** provides HTTP request/response entities **Swift 2**.
+**HTTP** provides HTTP [(RFC 2616)](https://tools.ietf.org/html/rfc2616) request/response entities for **Swift 2**.
 
 ## Features
 
