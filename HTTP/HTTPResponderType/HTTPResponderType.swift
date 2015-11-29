@@ -25,3 +25,7 @@
 public protocol HTTPResponderType {
     func respond(request: HTTPRequest) -> HTTPResponse
 }
+
+public protocol HTTPIdentifiableResponderType {
+    func respond(request: HTTPRequest, id: String) throws -> HTTPResponse
+}
