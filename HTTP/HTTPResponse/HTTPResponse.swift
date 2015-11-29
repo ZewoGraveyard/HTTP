@@ -48,11 +48,7 @@ extension HTTPResponse {
         self.reasonPhrase = reasonPhrase
         self.majorVersion = 1
         self.minorVersion = 1
-
-        if body.count > 0 {
-            headers["Content-Length"] = "\(body.count)"
-        }
-
+        headers["Content-Length"] = "\(body.count)"
         self.headers = headers
         self.body = body
     }
