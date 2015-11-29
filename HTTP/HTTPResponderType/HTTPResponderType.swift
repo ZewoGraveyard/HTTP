@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 public protocol HTTPResponderType {
-    func respond(request: HTTPRequest) -> HTTPResponse
+    func respond(request: HTTPRequest) throws -> HTTPResponse
 }
 
 public protocol HTTPIdentifiableResponderType {
