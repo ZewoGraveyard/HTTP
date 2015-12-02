@@ -29,3 +29,7 @@ public protocol HTTPResponderType {
 public protocol HTTPIdentifiableResponderType {
     func respond(request: HTTPRequest, id: String) throws -> HTTPResponse
 }
+
+public protocol HTTPCallbackResponderType {
+    func respond(request: HTTPRequest, responseHandler: HTTPResponse -> Void)
+}
