@@ -29,7 +29,7 @@ public struct HTTPContext {
     public let request: HTTPRequest
     private let respond: HTTPResponse -> Void
 
-    init(stream: StreamType, request: HTTPRequest, respond: HTTPResponse -> Void) {
+    public init(stream: StreamType, request: HTTPRequest, respond: HTTPResponse -> Void) {
         self.stream = stream
         self.request = request
         self.respond = respond
