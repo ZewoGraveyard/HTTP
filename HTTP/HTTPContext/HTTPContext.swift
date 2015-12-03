@@ -25,17 +25,21 @@
 import Stream
 
 public struct HTTPContext {
-    public let stream: StreamType
     public let request: HTTPRequest
     private let respond: HTTPResponse -> Void
+    private let upgrade: (HTTPResponse, (Void throws -> StreamType) -> Void) -> Void
 
-    public init(stream: StreamType, request: HTTPRequest, respond: HTTPResponse -> Void) {
-        self.stream = stream
+    public init(request: HTTPRequest, respond: HTTPResponse -> Void, upgrade: (HTTPResponse, (Void throws -> StreamType) -> Void) -> Void) {
         self.request = request
         self.respond = respond
+        self.upgrade = upgrade
     }
 
     public func respond(response: HTTPResponse) {
         respond(response)
+    }
+    
+    public func upgrade(response: HTTPResponse, completion: (Void throws -> StreamType) -> Void) {
+        upgrade(response, completion)
     }
 }
