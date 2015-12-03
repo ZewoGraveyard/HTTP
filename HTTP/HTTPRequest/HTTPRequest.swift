@@ -73,7 +73,11 @@ extension HTTPRequest {
     }
 
     public var keepAlive: Bool {
-        return getHeader("connection")?.lowercaseString == "keep-alive"
+        if minorVersion == 0 {
+            return getHeader("connection")?.lowercaseString == "keep-alive"
+        } else {
+            return getHeader("connection")?.lowercaseString != "close"
+        }
     }
 
     public var upgrade: Bool {
