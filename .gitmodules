@@ -2,3 +2,7 @@
 	path = URI
 	url = https://github.com/Zewo/URI.git
 	branch = master
+[submodule "Stream"]
+	path = Stream
+	url = https://github.com/Zewo/Stream
+	branch = master

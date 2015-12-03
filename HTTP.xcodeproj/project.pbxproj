@@ -44,6 +44,48 @@
 			remoteGlobalIDString = 3A1C55881BECE19A006EC3F7;
 			remoteInfo = "HTTP iOS";
 		};
+		B029B3291C0FE883003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0D521701BE4F753002063D5;
+			remoteInfo = "Stream OSX";
+		};
+		B029B32B1C0FE883003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A1C55891BECE19A006EC3F7;
+			remoteInfo = "Stream iOS";
+		};
+		B029B32D1C0FE883003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0D5217A1BE4F753002063D5;
+			remoteInfo = "Stream OSX Tests";
+		};
+		B029B32F1C0FE883003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A1C55921BECE19A006EC3F7;
+			remoteInfo = "Stream iOS Tests";
+		};
+		B029B3331C0FE899003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B0D5216F1BE4F753002063D5;
+			remoteInfo = "Stream OSX";
+		};
+		B029B3351C0FE89D003B0C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A1C55881BECE19A006EC3F7;
+			remoteInfo = "Stream iOS";
+		};
 		B0B0A4621C09D2E7005E92B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B0B0A45B1C09D2E7005E92B0 /* URI.xcodeproj */;
@@ -100,6 +142,7 @@
 		B019A7041C09274C00EADB02 /* HTTPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTTPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B019A7131C09279C00EADB02 /* HTTPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTests.swift; sourceTree = "<group>"; };
 		B019A7141C09279C00EADB02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B029B3221C0FE883003B0C53 /* Stream.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Stream.xcodeproj; path = Stream/Stream.xcodeproj; sourceTree = "<group>"; };
 		B0B0A4011C09CB82005E92B0 /* HTTPResponders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponders.swift; sourceTree = "<group>"; };
 		B0B0A45B1C09D2E7005E92B0 /* URI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = URI.xcodeproj; path = URI/URI.xcodeproj; sourceTree = "<group>"; };
 		B0C377791C0FE61300AD963E /* HTTPContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPContext.swift; path = HTTPContext/HTTPContext.swift; sourceTree = "<group>"; };
@@ -188,6 +231,17 @@
 			path = "HTTP Tests";
 			sourceTree = "<group>";
 		};
+		B029B3231C0FE883003B0C53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B029B32A1C0FE883003B0C53 /* Stream.framework */,
+				B029B32C1C0FE883003B0C53 /* Stream.framework */,
+				B029B32E1C0FE883003B0C53 /* StreamTests.xctest */,
+				B029B3301C0FE883003B0C53 /* StreamTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B0B0A4001C09CB82005E92B0 /* HTTPResponders */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				B0B0A45B1C09D2E7005E92B0 /* URI.xcodeproj */,
+				B029B3221C0FE883003B0C53 /* Stream.xcodeproj */,
 				B019A6C81C09227400EADB02 /* HTTP */,
 				B019A7121C09279C00EADB02 /* HTTP Tests */,
 				B0D521711BE4F753002063D5 /* Products */,
@@ -271,6 +326,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B029B3361C0FE89D003B0C53 /* PBXTargetDependency */,
 				B0B0A46D1C09D301005E92B0 /* PBXTargetDependency */,
 			);
 			name = "HTTP iOS";
@@ -326,6 +382,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B029B3341C0FE899003B0C53 /* PBXTargetDependency */,
 				B0B0A46B1C09D2FE005E92B0 /* PBXTargetDependency */,
 			);
 			name = "HTTP OSX";
@@ -370,6 +427,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = B029B3231C0FE883003B0C53 /* Products */;
+					ProjectRef = B029B3221C0FE883003B0C53 /* Stream.xcodeproj */;
+				},
+				{
 					ProductGroup = B0B0A45C1C09D2E7005E92B0 /* Products */;
 					ProjectRef = B0B0A45B1C09D2E7005E92B0 /* URI.xcodeproj */;
 				},
@@ -385,6 +446,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		B029B32A1C0FE883003B0C53 /* Stream.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Stream.framework;
+			remoteRef = B029B3291C0FE883003B0C53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B029B32C1C0FE883003B0C53 /* Stream.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Stream.framework;
+			remoteRef = B029B32B1C0FE883003B0C53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B029B32E1C0FE883003B0C53 /* StreamTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = StreamTests.xctest;
+			remoteRef = B029B32D1C0FE883003B0C53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B029B3301C0FE883003B0C53 /* StreamTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = StreamTests.xctest;
+			remoteRef = B029B32F1C0FE883003B0C53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B0B0A4631C09D2E7005E92B0 /* URI.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -503,6 +592,16 @@
 			isa = PBXTargetDependency;
 			target = 3A1C55881BECE19A006EC3F7 /* HTTP iOS */;
 			targetProxy = B019A70A1C09274C00EADB02 /* PBXContainerItemProxy */;
+		};
+		B029B3341C0FE899003B0C53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Stream OSX";
+			targetProxy = B029B3331C0FE899003B0C53 /* PBXContainerItemProxy */;
+		};
+		B029B3361C0FE89D003B0C53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Stream iOS";
+			targetProxy = B029B3351C0FE89D003B0C53 /* PBXContainerItemProxy */;
 		};
 		B0B0A46B1C09D2FE005E92B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
