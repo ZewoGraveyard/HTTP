@@ -28,8 +28,8 @@ import URI
 
 class HTTPTests: XCTestCase {
     func test() {
-        let request = HTTPRequest(method: .GET, uri: URI(path: "/"))
-        let response = HTTPResponse(status: .OK)
+        let request = HTTPRequest(method: .GET, uri: URI(path: "/"), body: "hello")
+        let response = HTTPResponse(status: .OK, body: "world")
         print(request)
         print(response)
     }
