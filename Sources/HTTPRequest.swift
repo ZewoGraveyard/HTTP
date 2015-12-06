@@ -46,11 +46,12 @@ public struct HTTPRequest {
 }
 
 extension HTTPRequest {
-    public init(method: HTTPMethod, uri: URI, var headers: [String: String] = [:], body: [Int8] = []) {
+    public init(method: HTTPMethod, uri: URI, headers: [String: String] = [:], body: [Int8] = []) {
         self.method = method
         self.uri = uri
         self.majorVersion = 1
         self.minorVersion = 1
+        var headers = headers
         headers["Content-Length"] = "\(body.count)"
         self.headers = headers
         self.body = body

@@ -43,11 +43,12 @@ public struct HTTPResponse {
 }
 
 extension HTTPResponse {
-    public init(statusCode: Int, reasonPhrase: String, var headers: [String: String] = [:], body: [Int8] = []) {
+    public init(statusCode: Int, reasonPhrase: String, headers: [String: String] = [:], body: [Int8] = []) {
         self.statusCode = statusCode
         self.reasonPhrase = reasonPhrase
         self.majorVersion = 1
         self.minorVersion = 1
+        var headers = headers
         headers["Content-Length"] = "\(body.count)"
         self.headers = headers
         self.body = body
