@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'HTTP'
-  s.version = '0.1'
+  s.version = '0.2'
   s.license = 'MIT'
   s.summary = 'HTTP request/response entities for Swift 2 (Linux ready)'
   s.homepage = 'https://github.com/Zewo/HTTP'
@@ -12,6 +12,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'HTTP/**/*.swift'
   s.dependency 'URI'
+  s.dependency 'Stream'
 
   s.requires_arc = true
 end
