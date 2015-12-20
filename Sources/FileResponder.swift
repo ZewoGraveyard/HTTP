@@ -44,6 +44,6 @@ public struct FileResponder: ResponderType {
             p = "/index.html"
         }
 
-        return try Response(status: .OK, filePath: basePath + p)
+        return Response(status: .OK, filePath: basePath + p)
     }
 }

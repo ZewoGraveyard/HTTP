@@ -25,8 +25,11 @@
 import Core
 
 extension Response {
-    public init(status: Status, headers: [String: String] = [:], filePath: String) throws {
-        let file = try File(path: filePath, mode: .Read)
-        self.init(status: status, headers: headers, body: try file.read().bytes)   
+    public init(status: Status, headers: [String: String] = [:], filePath: String) {
+        if let file = try? File(path: filePath, mode: .Read), body = try? file.read().bytes {
+            self.init(status: status, headers: headers, body: body)
+        } else {
+            self.init(status: .NotFound)
+        }
     }
 }
