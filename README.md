@@ -17,7 +17,7 @@ HTTP
 
 `MessageType` is a protocol for HTTP messages (request/response). It holds properties common to both requests and responses, specially the `headers` and the `body`. `storage` is a special property that has no relationship with the HTTP protocol, but it's used by the framework to carry custom data between middleware and responders.
 
-```
+```swift
 public protocol MessageType {
     var version: (major: Int, minor: Int) { get set }
     var headers: Headers { get set }
@@ -30,13 +30,13 @@ public protocol MessageType {
 
 The `Headers` type is a typealias for a `[Header: String]` dictionary.
 
-```
+```swift
 public typealias Headers = [Header: String]
 ```
 
  The `Header` type is simply a wrapper for a case insensitive key. This means you can subscript  the `headers` property without worrying if the header name is capitalized or lowercased, etc. 
  
- ```
+ ```swift
  request.headers["Content-Type"]
  request.headers["content-type"]
  ```
@@ -47,7 +47,7 @@ public typealias Headers = [Header: String]
 
 The `Body` enum can hold the HTTP body in two forms, `Buffer` or `Stream`. `Buffer` contains the whole body in binary using the [`Data`](https://github.com/Zewo/Data) struct. `Stream` contains a [`StreamType`](https://github.com/Zewo/Stream) which can be used to represent the HTTP body as a continuous stream of binary data.
 
-```
+```swift
 public enum Body {
     case Buffer(Data)
     case Stream(StreamType)
@@ -59,7 +59,7 @@ public enum Body {
 
 `Request` is a struct that represents the HTTP request. It conforms to the `MessageType` protocol, from which it inherits a number of computed properties related to the headers and body. Besides the properties required by `MessageType`, `Request` has the `Method` and [`URI`](https://github.com/Zewo/URI) properties, which form the request line. The `Upgrade` function is used to upgrade the request in an HTTP client. 
 
-```
+```swift
 public struct Request: MessageType {
     public typealias Upgrade = (Response, StreamType) throws -> Void
     public var method: Method
@@ -74,7 +74,7 @@ public struct Request: MessageType {
 
 ## Installation
 
-```
+```swift
 import PackageDescription
 
 let package = Package(
