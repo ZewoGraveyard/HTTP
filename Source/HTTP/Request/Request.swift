@@ -172,6 +172,16 @@ extension Request {
         }
     }
 
+    public var authorization: String? {
+        get {
+            return headers["Authorization"]
+        }
+
+        set {
+            headers["Authorization"] = newValue
+        }
+    }
+
     public var pathParameters: [String: String] {
         set {
             storage["pathParameters"] = newValue
