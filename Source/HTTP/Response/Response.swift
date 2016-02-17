@@ -79,11 +79,11 @@ extension Response {
         )
     }
 
-    public init(status: Status = .OK, headers: Headers = [:], stream: StreamType, upgrade: Upgrade? = nil) {
+    public init(status: Status = .OK, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
-            body: .Stream(stream),
+            body: .Stream(body),
             upgrade: upgrade
         )
     }

@@ -86,12 +86,12 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], stream: StreamType, upgrade: Upgrade? = nil) {
+    public init(method: Method, uri: URI, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
-            body: .Stream(stream),
+            body: .Stream(body),
             upgrade: upgrade
         )
     }
@@ -116,12 +116,12 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], stream: StreamType, upgrade: Upgrade? = nil) throws {
+    public init(method: Method, uri: String, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(string: uri),
             headers: headers,
-            stream: stream,
+            body: body,
             upgrade: upgrade
         )
     }
