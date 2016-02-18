@@ -45,6 +45,17 @@ class ParserTests: XCTestCase {
         XCTAssert(request?.cookies[1].value == "abc123")
     }
 
+    func testRequestParserCookieWithEquals() {
+        let parser = RequestParser()
+        var request: Request?
+
+        request = try! parser.parse("GET / HTTP/1.1\r\nCookie: auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtIjoxMjcsImtleSI6ImFiY2RlZmdoIiwic3ViIjoiYXN0dWRuaWNrYSIsIm5hbWUiOiJBbGV4IFN0dWRuacSNa2EifQ==.6J55Um63mdRlwS36Pq2qKNzWzXZU0Ra26+k+9gqpwb8=\r\n\r\n")
+        XCTAssert(request != nil)
+        XCTAssert(request?.cookies.count == 1)
+        XCTAssert(request?.cookies[0].name == "auth")
+        XCTAssert(request?.cookies[0].value == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtIjoxMjcsImtleSI6ImFiY2RlZmdoIiwic3ViIjoiYXN0dWRuaWNrYSIsIm5hbWUiOiJBbGV4IFN0dWRuacSNa2EifQ==.6J55Um63mdRlwS36Pq2qKNzWzXZU0Ra26+k+9gqpwb8=")
+    }
+
     func testResponseParserCookie() {
         let parser = ResponseParser()
         var response: Response?
