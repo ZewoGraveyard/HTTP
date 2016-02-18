@@ -36,7 +36,6 @@ struct ResponseParserContext {
     var body: Data = []
 
     var buildingCookieValue = ""
-    var currentCookie: Cookie? = nil
     var buildingHeaderField = ""
     var currentHeaderField = ""
     var completion: Response -> Void
@@ -134,9 +133,10 @@ func onResponseHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: In
             return 1
         }
 
-        if let cookie = $0.currentCookie {
-            $0.cookies.append(cookie)
-            $0.currentCookie = nil
+        if $0.buildingCookieValue != "" {
+            if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
+                $0.cookies.append(cookie)
+            }
             $0.buildingCookieValue = ""
         }
 
@@ -160,10 +160,6 @@ func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: In
 
         if headerField == "Set-Cookie" {
             $0.buildingCookieValue += headerValue
-
-            if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
-                $0.currentCookie = cookie
-            }
         } else {
             let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
             $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
@@ -175,11 +171,12 @@ func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: In
 
 func onResponseHeadersComplete(parser: Parser) -> Int32 {
     return ResponseContext(parser.memory.data).withMemory {
-        if let cookie = $0.currentCookie {
-            $0.cookies.append(cookie)
+        if $0.buildingCookieValue != "" {
+            if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
+                $0.cookies.append(cookie)
+            }
         }
 
-        $0.currentCookie = nil
         $0.buildingCookieValue = ""
         $0.buildingHeaderField = ""
         $0.currentHeaderField = ""

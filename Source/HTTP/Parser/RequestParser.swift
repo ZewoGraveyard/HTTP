@@ -134,6 +134,10 @@ func onRequestHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: Int
             return 1
         }
 
+        if $0.buildingCookieValue != "" {
+            $0.buildingCookieValue = ""
+        }
+
         $0.buildingHeaderField += headerField
         return 0
     }
@@ -154,10 +158,6 @@ func onRequestHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: Int
 
         if headerField == "Cookie" {
             $0.buildingCookieValue += headerValue
-
-            if let cookies = try? Cookie.parseCookie($0.buildingCookieValue) {
-                $0.cookies = cookies
-            }
         } else {
             let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
             $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
@@ -174,6 +174,12 @@ func onRequestHeadersComplete(parser: Parser) -> Int32 {
 
         guard let uri = try? URI(string: $0.currentURI) else {
             return 1
+        }
+
+        if $0.buildingCookieValue != "" {
+            if let cookies = try? Cookie.parseCookie($0.buildingCookieValue) {
+                $0.cookies = cookies
+            }
         }
 
         $0.buildingCookieValue = ""

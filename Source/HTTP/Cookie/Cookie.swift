@@ -70,7 +70,7 @@ extension Cookie {
         let tokens = string.split(";")
 
         for i in 0 ..< tokens.count {
-            let cookieTokens = tokens[i].split("=")
+            let cookieTokens = tokens[i].split("=", maxSplit: 1)
 
             if cookieTokens.count != 2 {
                 throw CookieError.InvalidString
