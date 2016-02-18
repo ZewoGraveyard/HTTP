@@ -32,8 +32,11 @@ struct ResponseParserContext {
     var reasonPhrase: String = ""
     var version: (major: Int, minor: Int) = (0, 0)
     var headers: Headers = [:]
+    var cookies: Cookies = []
     var body: Data = []
 
+    var buildingCookieValue = ""
+    var currentCookie: Cookie? = nil
     var buildingHeaderField = ""
     var currentHeaderField = ""
     var completion: Response -> Void
@@ -131,6 +134,12 @@ func onResponseHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: In
             return 1
         }
 
+        if let cookie = $0.currentCookie {
+            $0.cookies.append(cookie)
+            $0.currentCookie = nil
+            $0.buildingCookieValue = ""
+        }
+
         $0.buildingHeaderField += headerField
         return 0
     }
@@ -144,19 +153,34 @@ func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: In
 
         $0.buildingHeaderField = ""
         let headerField = $0.currentHeaderField
-        let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
 
         guard let headerValue = String(pointer: data, length: length) else {
             return 1
         }
 
-        $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
+        if headerField == "Set-Cookie" {
+            $0.buildingCookieValue += headerValue
+
+            if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
+                $0.currentCookie = cookie
+            }
+        } else {
+            let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
+            $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
+        }
+
         return 0
     }
 }
 
 func onResponseHeadersComplete(parser: Parser) -> Int32 {
     return ResponseContext(parser.memory.data).withMemory {
+        if let cookie = $0.currentCookie {
+            $0.cookies.append(cookie)
+        }
+
+        $0.currentCookie = nil
+        $0.buildingCookieValue = ""
         $0.buildingHeaderField = ""
         $0.currentHeaderField = ""
         $0.statusCode = Int(parser.memory.status_code)
@@ -178,6 +202,7 @@ func onResponseMessageComplete(parser: Parser) -> Int32 {
             status: Status(statusCode: $0.statusCode, reasonPhrase: $0.reasonPhrase),
             version: $0.version,
             headers: $0.headers,
+            cookies: $0.cookies,
             body: .Buffer($0.body),
             upgrade: nil
         )
@@ -188,6 +213,7 @@ func onResponseMessageComplete(parser: Parser) -> Int32 {
         $0.reasonPhrase = ""
         $0.version = (0, 0)
         $0.headers = [:]
+        $0.cookies = []
         $0.body = []
         return 0
     }

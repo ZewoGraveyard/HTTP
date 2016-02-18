@@ -33,28 +33,31 @@ public struct Request: MessageType {
     public var uri: URI
     public var version: (major: Int, minor: Int)
     public var headers: Headers
+    public var cookies: Cookies
     public var body: Body
     public var upgrade: Upgrade?
 
     public var storage: [String: Any] = [:]
 
-    init(method: Method, uri: URI, version: (major: Int, minor: Int), headers: Headers, body: Body, upgrade: Upgrade?) {
+    init(method: Method, uri: URI, version: (major: Int, minor: Int), headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
         self.method = method
         self.uri = uri
         self.version = version
         self.headers = headers
+        self.cookies = cookies
         self.body = body
         self.upgrade = upgrade
     }
 }
 
 extension Request {
-    public init(method: Method, uri: URI, headers: Headers = [:], body: Body, upgrade: Upgrade? = nil) {
+    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: Body, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             version: (major: 1, minor: 1),
             headers: headers,
+            cookies: cookies,
             body: body,
             upgrade: upgrade
         )
@@ -66,61 +69,67 @@ extension Request {
         }
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) {
+    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
+            cookies: cookies,
             body: .Buffer(body),
             upgrade: upgrade
         )
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {
+    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
+            cookies: cookies,
             body: body.data,
             upgrade: upgrade
         )
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) {
+    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
+            cookies: cookies,
             body: .Stream(body),
             upgrade: upgrade
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) throws {
+    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(string: uri),
             headers: headers,
+            cookies: cookies,
             body: body,
             upgrade: upgrade
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) throws {
+    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) throws {
         try self.init(
             method: method,
             uri: uri,
             headers: headers,
+            cookies: cookies,
             body: body.data,
             upgrade: upgrade
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) throws {
+    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(string: uri),
             headers: headers,
+            cookies: cookies,
             body: body,
             upgrade: upgrade
         )
@@ -202,12 +211,29 @@ extension Request {
 
 extension Request: CustomStringConvertible {
     public var requestLineDescription: String {
-        return "\(method) \(uri) HTTP/\(version.major).\(version.minor)"
+        return "\(method) \(uri) HTTP/\(version.major).\(version.minor)\n"
+    }
+
+    public var cookiesDescription: String {
+        var string = "Cookie:"
+
+        for (index, cookie) in cookies.enumerate() {
+            string += " \(cookie.name)=\(cookie.value)"
+
+            if index < cookies.count - 1 {
+                string += ";"
+            }
+        }
+
+        string += "\n"
+
+        return string
     }
 
     public var description: String {
-        return requestLineDescription + "\n" +
-            headerDescription + "\n\n" +
+        return requestLineDescription +
+            headerDescription +
+            cookiesDescription + "\n" +
             bodyDescription
     }
 }

@@ -28,13 +28,29 @@ public struct RequestSerializer: RequestSerializerType {
     public init() {}
 
     public func serialize(request: Request, @noescape send: Data throws -> Void) throws {
-        try send("\(request.method) \(request.uri) HTTP/\(request.version.major).\(request.version.minor)\r\n".data)
+        let newLine: Data = [13, 10]
+
+        try send("\(request.method) \(request.uri) HTTP/\(request.version.major).\(request.version.minor)".data)
+        try send(newLine)
 
         for (name, value) in request.headers {
-            try send("\(name): \(value)\r\n".data)
+            try send("\(name): \(value)".data)
+            try send(newLine)
         }
 
-        try send("\r\n".data)
+        if request.cookies.count > 0 {
+            try send("Cookie:" )
+            for (index, cookie) in request.cookies.enumerate() {
+                try send(" \(cookie.name)=\(cookie.value)".data)
+
+                if index < request.cookies.count - 1 {
+                    try send(";")
+                }
+            }
+            try send(newLine)
+        }
+
+        try send(newLine)
 
         switch request.body {
         case .Buffer(let data):
@@ -42,13 +58,15 @@ public struct RequestSerializer: RequestSerializerType {
         case .Stream(let bodyStream):
             while !bodyStream.closed {
                 let data = try bodyStream.receive()
-                try send("\(String(data.count, radix: 16))\r\n".data)
+                try send(String(data.count, radix: 16).data)
+                try send(newLine)
                 try send(data)
-                try send("\r\n".data)
+                try send(newLine)
             }
 
-            try send("0\r\n".data)
-            try send("\r\n".data)
+            try send("0".data)
+            try send(newLine)
+            try send(newLine)
         }
     }
 }

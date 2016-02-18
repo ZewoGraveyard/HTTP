@@ -38,6 +38,11 @@ public struct ResponseSerializer: ResponseSerializerType {
             try send(newLine)
         }
 
+        for cookie in response.cookies {
+            try send("Set-Cookie: \(cookie.description)".data)
+            try send(newLine)
+        }
+
         try send(newLine)
 
         switch response.body {

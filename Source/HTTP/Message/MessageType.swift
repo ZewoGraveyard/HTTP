@@ -65,6 +65,8 @@ extension Header: CustomStringConvertible {
     }
 }
 
+public typealias Cookies = [Cookie]
+
 public enum Body {
     case Buffer(Data)
     case Stream(StreamType)
@@ -103,6 +105,7 @@ extension Body {
 public protocol MessageType {
     var version: (major: Int, minor: Int) { get set }
     var headers: Headers { get set }
+    var cookies: Cookies { get set }
     var body: Body { get set }
     var storage: [String: Any] { get set }
 }
@@ -184,12 +187,8 @@ extension MessageType {
     public var headerDescription: String {
         var string = ""
 
-        for (index, (header, value)) in headers.enumerate() {
-            string += "\(header): \(value)"
-
-            if index < headers.count - 1 {
-                string += "\n"
-            }
+        for (header, value) in headers {
+            string += "\(header): \(value)\n"
         }
 
         return string

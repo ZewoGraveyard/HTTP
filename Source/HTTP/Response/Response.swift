@@ -30,26 +30,29 @@ public struct Response: MessageType {
     public var status: Status
     public var version: (major: Int, minor: Int)
     public var headers: Headers
+    public var cookies: Cookies
     public var body: Body
     public var upgrade: Upgrade?
 
     public var storage: [String: Any] = [:]
 
-    init(status: Status, version: (major: Int, minor: Int), headers: Headers, body: Body, upgrade: Upgrade?) {
+    init(status: Status, version: (major: Int, minor: Int), headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
         self.status = status
         self.version = version
         self.headers = headers
+        self.cookies = cookies
         self.body = body
         self.upgrade = upgrade
     }
 }
 
 extension Response {
-    public init(status: Status = .OK, headers: Headers = [:], body: Body, upgrade: Upgrade? = nil) {
+    public init(status: Status = .OK, headers: Headers = [:], cookies: Cookies = [], body: Body, upgrade: Upgrade? = nil) {
         self.init(
             status: status,
             version: (major: 1, minor: 1),
             headers: headers,
+            cookies: cookies,
             body: body,
             upgrade: upgrade
         )
@@ -61,28 +64,31 @@ extension Response {
         }
     }
 
-    public init(status: Status = .OK, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) {
+    public init(status: Status = .OK, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
+            cookies: cookies,
             body: .Buffer(body),
             upgrade: upgrade
         )
     }
 
-    public init(status: Status = .OK, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {
+    public init(status: Status = .OK, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
+            cookies: cookies,
             body: body.data,
             upgrade: upgrade
         )
     }
 
-    public init(status: Status = .OK, headers: Headers = [:], body: StreamType, upgrade: Upgrade? = nil) {
+    public init(status: Status = .OK, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
+            cookies: cookies,
             body: .Stream(body),
             upgrade: upgrade
         )
@@ -99,12 +105,23 @@ extension Response {
 
 extension Response: CustomStringConvertible {
     public var statusLineDescription: String {
-        return "HTTP/1.1 " + statusCode.description + " " + reasonPhrase
+        return "HTTP/1.1 " + statusCode.description + " " + reasonPhrase + "\n"
+    }
+
+    public var cookiesDescription: String {
+        var string = ""
+
+        for cookie in cookies {
+            string += "Set-Cookie: \(cookie.description)\n"
+        }
+
+        return string
     }
 
     public var description: String {
-        return statusLineDescription + "\n" +
-            headerDescription + "\n\n" +
+        return statusLineDescription +
+            headerDescription +
+            cookiesDescription + "\n" +
             bodyDescription
     }
 }

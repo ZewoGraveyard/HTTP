@@ -34,8 +34,10 @@ struct RequestParserContext {
     var uri: URI! = nil
     var version: (major: Int, minor: Int) = (0, 0)
     var headers: Headers = [:]
+    var cookies: Cookies = []
     var body: Data = []
 
+    var buildingCookieValue = ""
     var currentURI = ""
     var buildingHeaderField = ""
     var currentHeaderField = ""
@@ -145,13 +147,22 @@ func onRequestHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: Int
 
         $0.buildingHeaderField = ""
         let headerField = $0.currentHeaderField
-        let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
 
         guard let headerValue = String(pointer: data, length: length) else {
             return 1
         }
 
-        $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
+        if headerField == "Cookie" {
+            $0.buildingCookieValue += headerValue
+
+            if let cookies = try? Cookie.parseCookie($0.buildingCookieValue) {
+                $0.cookies = cookies
+            }
+        } else {
+            let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
+            $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
+        }
+
         return 0
     }
 }
@@ -165,6 +176,7 @@ func onRequestHeadersComplete(parser: Parser) -> Int32 {
             return 1
         }
 
+        $0.buildingCookieValue = ""
         $0.uri = uri
         $0.currentURI = ""
         $0.buildingHeaderField = ""
@@ -188,6 +200,7 @@ func onRequestMessageComplete(parser: Parser) -> Int32 {
             uri: $0.uri,
             version: $0.version,
             headers: $0.headers,
+            cookies: $0.cookies,
             body: .Buffer($0.body),
             upgrade: nil
         )
@@ -198,6 +211,7 @@ func onRequestMessageComplete(parser: Parser) -> Int32 {
         $0.uri = nil
         $0.version = (0, 0)
         $0.headers = [:]
+        $0.cookies = []
         $0.body = []
         return 0
     }
