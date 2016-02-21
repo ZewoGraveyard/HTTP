@@ -91,7 +91,7 @@ We provide a number of type-safe computed properties in `MessageType` extensions
 
 ### Body
 
-The `Body` enum can hold the HTTP body in two forms, `Buffer` or `Stream`. `Buffer` contains the whole body in binary using the [`Data`](https://github.com/Zewo/Data) struct. `Stream` contains a [`StreamType`](https://github.com/Zewo/Stream) which can be used to represent the HTTP body as a continuous stream of binary data.
+The `Body` enum can represent the HTTP body in two forms, `Buffer` or `Stream`. `Buffer` holds a [`Data`](https://github.com/Zewo/Data) struct containing the whole body. `Stream` contains any value that conforms to the [`StreamType`](https://github.com/Zewo/Stream) protocol, which represents a continuous stream of binary data.
 
 ```swift
 public enum Body {
