@@ -25,9 +25,9 @@
 @_exported import Stream
 @_exported import MediaType
 
-public typealias Headers = [Header: String]
+public typealias Version = (major: Int, minor: Int)
 
-public struct Header {
+public struct HeaderName {
     public let name: String
 
     public init(name: String) {
@@ -35,17 +35,17 @@ public struct Header {
     }
 }
 
-extension Header: Hashable {
+extension HeaderName: Hashable {
     public var hashValue: Int {
         return name.lowercaseString.hashValue
     }
 }
 
-public func ==(lhs: Header, rhs: Header) -> Bool {
+public func ==(lhs: HeaderName, rhs: HeaderName) -> Bool {
     return lhs.name.lowercaseString == rhs.name.lowercaseString
 }
 
-extension Header: StringLiteralConvertible {
+extension HeaderName: StringLiteralConvertible {
     public init(stringLiteral string: String) {
         self.init(name: string)
     }
@@ -59,12 +59,14 @@ extension Header: StringLiteralConvertible {
     }
 }
 
-extension Header: CustomStringConvertible {
+extension HeaderName: CustomStringConvertible {
     public var description: String {
         return name
     }
 }
 
+public typealias HeaderValue = String
+public typealias Headers = [HeaderName: HeaderValue]
 public typealias Cookies = Set<Cookie>
 
 public enum Body {
@@ -74,16 +76,19 @@ public enum Body {
 
 extension Body {
     public var buffer: Data? {
-        switch self {
-        case .Buffer(let data): return data
-        default: return nil
+        get {
+            switch self {
+            case .Buffer(let data): return data
+            default: return nil
+            }
         }
-    }
 
-    public var stream: StreamType? {
-        switch self {
-        case .Stream(let stream): return stream
-        default: return nil
+        set {
+            if let data = newValue {
+                self = Buffer(data)
+            } else {
+                self = Buffer([])
+            }
         }
     }
 
@@ -91,6 +96,23 @@ extension Body {
         switch self {
         case .Buffer: return true
         default: return false
+        }
+    }
+
+    public var stream: StreamType? {
+        get {
+            switch self {
+            case .Stream(let stream): return stream
+            default: return nil
+            }
+        }
+
+        set {
+            if let stream = newValue {
+                self = Stream(stream)
+            } else {
+                self = Buffer([])
+            }
         }
     }
 
@@ -102,18 +124,20 @@ extension Body {
     }
 }
 
+public typealias Storage = [String: Any]
+
 public protocol MessageType {
-    var version: (major: Int, minor: Int) { get set }
+    var version: Version { get set }
     var headers: Headers { get set }
     var cookies: Cookies { get set }
     var body: Body { get set }
-    var storage: [String: Any] { get set }
+    var storage: Storage { get set }
 }
 
 extension MessageType {
     public var contentType: MediaType? {
         get {
-            if let contentType = headers["content-type"] {
+            if let contentType = headers["Content-Type"] {
                 return MediaType(string: contentType)
             }
             return nil
@@ -183,7 +207,9 @@ extension MessageType {
             headers["Upgrade"] = newValue
         }
     }
+}
 
+extension MessageType {
     public var headerDescription: String {
         var string = ""
 

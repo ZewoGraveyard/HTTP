@@ -161,8 +161,8 @@ func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: In
         if headerField == "Set-Cookie" {
             $0.buildingCookieValue += headerValue
         } else {
-            let previousHeaderValue = $0.headers[Header(name: headerField)] ?? ""
-            $0.headers[Header(name: headerField)] = previousHeaderValue + headerValue
+            let previousHeaderValue = $0.headers[HeaderName(name: headerField)] ?? ""
+            $0.headers[HeaderName(name: headerField)] = previousHeaderValue + headerValue
         }
 
         return 0

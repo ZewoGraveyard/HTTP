@@ -31,15 +31,15 @@ public struct Request: MessageType {
 
     public var method: Method
     public var uri: URI
-    public var version: (major: Int, minor: Int)
+    public var version: Version
     public var headers: Headers
     public var cookies: Cookies
     public var body: Body
     public var upgrade: Upgrade?
 
-    public var storage: [String: Any] = [:]
+    public var storage: Storage = [:]
 
-    init(method: Method, uri: URI, version: (major: Int, minor: Int), headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
+    init(method: Method, uri: URI, version: Version, headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
         self.method = method
         self.uri = uri
         self.version = version

@@ -28,15 +28,15 @@ public struct Response: MessageType {
     public typealias Upgrade = (Request, StreamType) throws -> Void
 
     public var status: Status
-    public var version: (major: Int, minor: Int)
+    public var version: Version
     public var headers: Headers
     public var cookies: Cookies
     public var body: Body
     public var upgrade: Upgrade?
 
-    public var storage: [String: Any] = [:]
+    public var storage: Storage = [:]
 
-    init(status: Status, version: (major: Int, minor: Int), headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
+    init(status: Status, version: Version, headers: Headers, cookies: Cookies, body: Body, upgrade: Upgrade?) {
         self.status = status
         self.version = version
         self.headers = headers
