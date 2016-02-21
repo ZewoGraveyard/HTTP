@@ -135,7 +135,7 @@ func onResponseHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: In
 
         if $0.buildingCookieValue != "" {
             if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
-                $0.cookies.append(cookie)
+                $0.cookies.insert(cookie)
             }
             $0.buildingCookieValue = ""
         }
@@ -173,7 +173,7 @@ func onResponseHeadersComplete(parser: Parser) -> Int32 {
     return ResponseContext(parser.memory.data).withMemory {
         if $0.buildingCookieValue != "" {
             if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
-                $0.cookies.append(cookie)
+                $0.cookies.insert(cookie)
             }
         }
 

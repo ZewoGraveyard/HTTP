@@ -46,6 +46,16 @@ public struct Cookie {
     }
 }
 
+extension Cookie: Hashable {
+    public var hashValue: Int {
+        return name.hashValue
+    }
+}
+
+public func ==(lhs: Cookie, rhs: Cookie) -> Bool {
+    return lhs.name == rhs.name
+}
+
 extension Cookie: CustomStringConvertible {
     public var description: String {
         var string = "\(name)=\(value)"
@@ -76,7 +86,7 @@ extension Cookie {
                 throw CookieError.InvalidString
             }
 
-            cookies.append(Cookie(name: cookieTokens[0].trim(), value: cookieTokens[1].trim()))
+            cookies.insert(Cookie(name: cookieTokens[0].trim(), value: cookieTokens[1].trim()))
         }
 
         return cookies

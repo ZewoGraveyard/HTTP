@@ -65,7 +65,7 @@ extension Header: CustomStringConvertible {
     }
 }
 
-public typealias Cookies = [Cookie]
+public typealias Cookies = Set<Cookie>
 
 public enum Body {
     case Buffer(Data)
