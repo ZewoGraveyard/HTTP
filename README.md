@@ -81,11 +81,11 @@ extension MessageType {
 So instead of accessing the raw string you can get the `MediaType` value.
 
 ```swift
-response.contentType = JSONMediaType()
+response.contentType = JSONMediaType
 let contentType = response.contentType
 ```
 
-`contentType` will receive the value `JSONMediaType()`.
+`contentType` will receive the value `JSONMediaType`.
 
 We provide a number of type-safe computed properties in `MessageType` extensions. But if there's some header we missed, you can always extend `MessageType` yourself and create your own type-safe header 😊.
 
