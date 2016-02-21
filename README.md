@@ -27,7 +27,7 @@ public protocol MessageType {
 }
 ```
 
-`version`, `headers`, `cookies` and `body` are self-explanatory in regard to HTTP messages. `storage` is a special property that has no relationship with the HTTP protocol itself, but it's used by the framework to carry custom data between middleware and a responder in a chain. `MessageType` is usually not used as a parameter in our APIs. It is mostly used when a computed property can be shared by both requests, and responses, like `Content-Type`, `Content-Length`, etc.
+`version`, `headers`, `cookies` and `body` are self-explanatory in regard to HTTP messages. `storage` is a special property that has no relationship with the HTTP protocol itself, but it's used by the framework to carry custom data between middleware and a responder in a chain. `MessageType` is usually not used as a parameter in our APIs. It is mostly used when a computed property can be shared by both requests, and responses, like `contentType`, `contentLength`, etc.
 
 ### Version
 
