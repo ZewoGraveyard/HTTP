@@ -9,39 +9,85 @@ HTTP
 
 - HTTP request/response entities
 - HTTP parser/serializer
-- Protocols for HTTP servers, HTTP clients and middleware.
+- Protocols for HTTP server, client, router and middleware.
 
-## Usage
+## Documentation
 
 ### MessageType
 
-`MessageType` is a protocol for HTTP messages (request/response). It holds properties common to both requests and responses, specially the `headers` and the `body`. `storage` is a special property that has no relationship with the HTTP protocol, but it's used by the framework to carry custom data between middleware and responders.
+`MessageType` is a protocol for HTTP messages. It holds properties common to both requests and responses. `version`, `headers`, `cookies` and `body` are self-explanatory in regard to HTTP messages. `storage` is a special property that has no relationship with the HTTP protocol itself, but it's used by the framework to carry custom data between middleware and a responder in a chain.
 
 ```swift
 public protocol MessageType {
-    var version: (major: Int, minor: Int) { get set }
+    var version: Version { get set }
     var headers: Headers { get set }
+    var cookies: Cookies { get set }
     var body: Body { get set }
-    var storage: [String: Any] { get set }
+    var storage: Storage { get set }
 }
+```
+
+`MessageType` is usually not used as a parameter in our APIs. It is usually used when a computed property can be shared by both requests, and responses, like `Content-Type`, `Content-Length`, etc.
+
+### Version
+
+`Version` holds the version of the HTTP protocol associated with the HTTP message.
+
+```swift
+public typealias Version = (major: Int, minor: Int)
 ```
 
 ### Headers
 
-The `Headers` type is a typealias for a `[Header: String]` dictionary.
+The `Headers` type is a typealias for a `[HeaderName: HeaderValue]` dictionary.
 
 ```swift
-public typealias Headers = [Header: String]
+public typealias Headers = [HeaderName: HeaderValue]
 ```
 
- The `Header` type is simply a wrapper for a case insensitive key. This means you can subscript  the `headers` property without worrying if the header name is capitalized or lowercased, etc. 
+#### Accessing raw headers.
+
+The `HeaderName` type is simply a wrapper for a case insensitive key. This means you can subscript  the `headers` property without worrying if the header name is capitalized or lowercased, etc. 
  
- ```swift
- request.headers["Content-Type"]
- request.headers["content-type"]
- ```
+```swift
+request.headers["Content-Type"] = "application/json"
+let contentType = request.headers["content-type"]
+```
+
+`contentType` will receive the value `"application/json"`.
+
+#### Accessing type-safe headers.
  
- Both examples will give you the correct header value.
+ 
+The preferred way to access values from `headers` is through type-safe computed properties defined in extensions. For example, `contentType` is a computed property shared by requests and responses that provides a type-safe wrapper for media types.
+
+```swift
+extension MessageType {
+    public var contentType: MediaType? {
+        get {
+            if let contentType = headers["Content-Type"] {
+                return MediaType(string: contentType)
+            }
+            return nil
+        }
+
+        set {
+            headers["Content-Type"] = newValue?.description
+        }
+    }
+}
+```
+
+So instead of accessing the raw string you can get the `MediaType` value.
+
+```swift
+response.contentType = JSONMediaType()
+let contentType = response.contentType
+```
+
+`contentType` will receive the value `JSONMediaType()`.
+
+We provide a number of type-safe computed properties in `MessageType` extensions. But if there's some header we missed, you can always extend `MessageType` yourseld and create your own type-safe header 😊.
 
 ### Body
 
@@ -52,25 +98,72 @@ public enum Body {
     case Buffer(Data)
     case Stream(StreamType)
 }
+```
 
+`Body` has some computed properties to facilitate the access of the associated values.
+
+```swift
+request.body.buffer = [104, 101, 108, 108, 111]
+request.body.isBuffer // true
+request.body.isStream // false
+request.body.stream // nil
+
+response.body.stream = FileStream(file: someFile)
+response.body.isBuffer // false
+response.body.isStream // true
+response.body.buffer // nil
 ```
 
 ### Request
 
-`Request` is a struct that represents the HTTP request. It conforms to the `MessageType` protocol, from which it inherits a number of computed properties related to the headers and body. Besides the properties required by `MessageType`, `Request` has the `Method` and [`URI`](https://github.com/Zewo/URI) properties, which form the request line. The `Upgrade` function is used to upgrade the request in an HTTP client. 
+`Request` is a struct that represents an HTTP request. It conforms to the `MessageType` protocol from which it inherits a number of computed properties.
 
 ```swift
 public struct Request: MessageType {
     public typealias Upgrade = (Response, StreamType) throws -> Void
     public var method: Method
     public var uri: URI
-    public var version: (major: Int, minor: Int)
+    public var version: Version
     public var headers: Headers
+    public var cookies: Cookies
     public var body: Body
     public var upgrade: Upgrade?
-    public var storage: [String: Any] = [:]
+    public var storage: Storage = [:]
 }
 ```
+
+Besides the properties required by `MessageType`, `Request` has the `Method` and [`URI`](https://github.com/Zewo/URI) properties which represent the request line of the HTTP request.
+
+```HTTP
+GET / HTTP/1.1
+```
+
+The `Upgrade` function is used to upgrade the request to another protocol (like [`WebSocket`](https://github.com/Zewo/Websocket)) in an HTTP client.
+
+### Response
+
+`Response` is a struct that represents an HTTP response. It conforms to the `MessageType` protocol from which it inherits a number of computed properties.
+
+```swift
+public struct Response: MessageType {
+    public typealias Upgrade = (Request, StreamType) throws -> Void
+    public var status: Status
+    public var version: Version
+    public var headers: Headers
+    public var cookies: Cookies
+    public var body: Body
+    public var upgrade: Upgrade?
+    public var storage: Storage = [:]
+}
+```
+
+Besides the properties required by `MessageType`, `Response` has the `Status` property which represents the status line of the HTTP response.
+
+```HTTP
+HTTP/1.1 200 OK
+```
+
+The `Upgrade` function is used to upgrade the response to another protocol (like [`WebSocket`](https://github.com/Zewo/Websocket)) in an HTTP server.
 
 ## Installation
 
