@@ -45,7 +45,7 @@ The `Headers` type is a typealias for a `[HeaderName: HeaderValue]` dictionary.
 public typealias Headers = [HeaderName: HeaderValue]
 ```
 
-#### Accessing raw headers.
+#### Accessing raw headers
 
 The `HeaderName` type is simply a wrapper for a case insensitive key. This means you can subscript  the `headers` property without worrying if the header name is capitalized or lowercased, etc. 
  
@@ -56,7 +56,7 @@ let contentType = request.headers["content-type"]
 
 `contentType` will receive the value `"application/json"`.
 
-#### Accessing type-safe headers.
+#### Accessing headers safely
  
  
 The preferred way to access values from `headers` is through type-safe computed properties defined in extensions. For example, `contentType` is a computed property shared by requests and responses that provides a type-safe wrapper for media types.
@@ -87,7 +87,7 @@ let contentType = response.contentType
 
 `contentType` will receive the value `JSONMediaType()`.
 
-We provide a number of type-safe computed properties in `MessageType` extensions. But if there's some header we missed, you can always extend `MessageType` yourseld and create your own type-safe header 😊.
+We provide a number of type-safe computed properties in `MessageType` extensions. But if there's some header we missed, you can always extend `MessageType` yourself and create your own type-safe header 😊.
 
 ### Body
 
