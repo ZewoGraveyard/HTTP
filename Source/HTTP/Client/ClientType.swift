@@ -26,4 +26,6 @@ public protocol ClientType: ResponderType {
     var client: StreamClientType { get }
     var serializer: RequestSerializerType { get }
     var parser: ResponseParserType { get }
+
+    func send(request: Request, middleware: MiddlewareType...) throws -> Response
 }
