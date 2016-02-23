@@ -108,7 +108,7 @@ let cookies: Cookies = [
 ]
 ```
 
-> **Warning**: When setting `cookies` on a `Request` the attributes will be ignored by the HTTP parser/serializer as they're only valid for `Set-Cookie` headers on an HTTP respose.
+> **Warning**: When setting `cookies` on a `Request` the attributes will be ignored by the HTTP parser/serializer as they're only valid for `Set-Cookie` headers on an HTTP response.
 
 ### Body
 
