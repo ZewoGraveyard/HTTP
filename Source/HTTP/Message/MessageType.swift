@@ -26,45 +26,7 @@
 @_exported import MediaType
 
 public typealias Version = (major: Int, minor: Int)
-
-public struct HeaderName {
-    public let name: String
-
-    public init(name: String) {
-        self.name = name
-    }
-}
-
-extension HeaderName: Hashable {
-    public var hashValue: Int {
-        return name.lowercaseString.hashValue
-    }
-}
-
-public func ==(lhs: HeaderName, rhs: HeaderName) -> Bool {
-    return lhs.name.lowercaseString == rhs.name.lowercaseString
-}
-
-extension HeaderName: StringLiteralConvertible {
-    public init(stringLiteral string: String) {
-        self.init(name: string)
-    }
-
-    public init(extendedGraphemeClusterLiteral string: String){
-        self.init(name: string)
-    }
-
-    public init(unicodeScalarLiteral string: String){
-        self.init(name: string)
-    }
-}
-
-extension HeaderName: CustomStringConvertible {
-    public var description: String {
-        return name
-    }
-}
-
+public typealias HeaderName = CaseInsensitiveKey
 public typealias HeaderValue = String
 public typealias Headers = [HeaderName: HeaderValue]
 public typealias Cookies = Set<Cookie>

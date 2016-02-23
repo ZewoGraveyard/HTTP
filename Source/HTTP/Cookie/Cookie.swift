@@ -29,19 +29,42 @@ public enum CookieError: ErrorType {
 public struct Cookie {
     public var name: String
     public var value: String
-    public var attributes: [String: String]
 
-    init(name: String, value: String, attributes: [String: String]) {
+    public var expires: String?
+    public var maxAge: Int?
+    public var domain: String?
+    public var path: String?
+    public var secure: Bool
+    public var HTTPOnly: Bool
+
+    public init(name: String, value: String, expires: String? = nil, maxAge: Int? = nil, domain: String? = nil, path: String? = nil, secure: Bool = false, HTTPOnly: Bool = false) {
         self.name = name
         self.value = value
-        self.attributes = attributes
+        self.expires = expires
+        self.maxAge = maxAge
+        self.domain = domain
+        self.path = path
+        self.secure = secure
+        self.HTTPOnly = HTTPOnly
     }
 
-    public init(name: String, value: String) {
+    init(name: String, value: String, attributes: [CaseInsensitiveKey: String]) {
+        let expires = attributes["Path"]
+        let maxAge = attributes["Max-Age"].flatMap({Int($0)})
+        let domain = attributes["Domain"]
+        let path = attributes["Path"]
+        let secure = attributes["Secure"] != nil
+        let HTTPOnly = attributes["HttpOnly"] != nil
+
         self.init(
             name: name,
             value: value,
-            attributes: [:]
+            domain: domain,
+            path: path,
+            expires: expires,
+            maxAge: maxAge,
+            secure: secure,
+            HTTPOnly:  HTTPOnly
         )
     }
 }
@@ -60,14 +83,28 @@ extension Cookie: CustomStringConvertible {
     public var description: String {
         var string = "\(name)=\(value)"
 
-        if attributes.count > 0 {
-            string += attributes.reduce("") {
-                if $1.1 != "" {
-                    return $0 + "; \($1.0)=\($1.1)"
-                } else {
-                    return $0 + "; \($1.0)"
-                }
-            }
+        if let expires = expires {
+            string += "; Expires=\(expires)"
+        }
+
+        if let maxAge = maxAge {
+            string += "; Max-Age=\(maxAge)"
+        }
+
+        if let domain = domain {
+            string += "; Domain=\(domain)"
+        }
+
+        if let path = path {
+            string += "; Path=\(path)"
+        }
+
+        if secure {
+            string += "; Secure"
+        }
+
+        if HTTPOnly {
+            string += "; HttpOnly"
         }
 
         return string
@@ -104,7 +141,7 @@ extension Cookie {
         let name = cookieTokens[0]
         let value = cookieTokens[1]
 
-        var attributes: [String: String] = [:]
+        var attributes: [CaseInsensitiveKey: String] = [:]
 
         for i in 1 ..< cookieStringTokens.count {
             let attributeTokens = cookieStringTokens[i].split("=")
@@ -114,9 +151,9 @@ extension Cookie {
             }
 
             if attributeTokens.count == 1 {
-                attributes[attributeTokens[0].trim()] = ""
+                attributes[CaseInsensitiveKey(attributeTokens[0].trim())] = ""
             } else {
-                attributes[attributeTokens[0].trim()] = attributeTokens[1].trim()
+                attributes[CaseInsensitiveKey(attributeTokens[0].trim())] = attributeTokens[1].trim()
             }
         }
 
