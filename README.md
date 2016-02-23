@@ -56,8 +56,7 @@ let contentType = request.headers["content-type"]
 
 `contentType` will receive the value `"application/json"`.
 
-#### Accessing headers safely
- 
+#### Accessing `headers` safely
  
 The preferred way to access values from `headers` is through type-safe computed properties defined in extensions. For example, `contentType` is a computed property shared by requests and responses that provides a type-safe wrapper for media types.
 
@@ -89,6 +88,28 @@ let contentType = response.contentType
 
 We provide a number of type-safe computed properties in `MessageType` extensions. But if there's some header we missed, you can always extend `MessageType` yourself and create your own type-safe header 😊.
 
+### Cookies
+
+The `Cookies` type is a typealias for `Set<Cookie>`.
+
+```swift
+public typealias Cookies = Set<Cookie>
+```
+
+Cookies are handled differently than other HTTP headers specially because of the `Set-Cookie` header. The `Cookie` type has two required properties `name` and `value` and six optional properties; `expires`, `maxAge`, `domain`, `path`, `secure`, `HTTPOnly`.
+
+```swift
+let cookies: Cookies = [
+    Cookie(name: "color", value: "blue"),
+    Cookie(name: "token", value: "21AXC3QPQK", secure: true, HTTPOnly: true),
+    Cookie(name: "theme", value: "dark", expires: "Wed, 08 Jul 2018 23:10:34 GMT"),
+    Cookie(name: "token", value: "A8J3FB208S", maxAge: 60 * 60),
+    Cookie(name: "color", value: "magenta", domain: ".zewo.io", path: "/"),
+]
+```
+
+> **Warning**: When setting `cookies` on a `Request` the attributes will be ignored by the HTTP parser/serializer as they're only valid for `Set-Cookie` headers on an HTTP respose.
+
 ### Body
 
 The `Body` enum can represent the HTTP body in two forms, `Buffer` or `Stream`. `Buffer` holds a [`Data`](https://github.com/Zewo/Data) struct containing the whole body. `Stream` contains any value that conforms to the [`StreamType`](https://github.com/Zewo/Stream) protocol, which represents a continuous stream of binary data.
@@ -112,6 +133,46 @@ response.body.stream = FileStream(file: someFile)
 response.body.isBuffer // false
 response.body.isStream // true
 response.body.buffer // nil
+```
+
+### Storage
+
+The `storage` property is used to store custom data in the HTTP message. It is used to pass data between middlewares and responders.
+
+```swift
+request.storage["user"] = User(name: John)
+if let user = request.storage["user"] as? User {
+    // do something with user
+}
+```
+
+> **Warning**: Unlike `headers`, `storage`'s keys are case sensitive. So be careful and subscript `storage` with the same key you used to store the value.
+
+#### Accessing `storage` safely
+
+Just like `header`, the preferred way to access values from the `storage` is through type-safe computed properties defined in extensions.
+
+```swift
+extension Request {
+    public var user: User? {
+        get {
+            return headers["User"] as? User
+        }
+
+        set {
+            headers["User"] = newValue
+        }
+    }
+}
+```
+
+This way you don't need to type-cast when unwrapping the value and you get a cleaner and safer API.
+
+```swift
+request.user = User(name: John)
+if let user = request.user {
+    // do something with user
+}
 ```
 
 ### Request
@@ -139,6 +200,67 @@ GET / HTTP/1.1
 ```
 
 The `Upgrade` function is used to upgrade the request to another protocol (like [`WebSocket`](https://github.com/Zewo/Websocket)) in an HTTP client.
+
+### Creating a `Request`
+
+When you're on the client side you have to create a `Request` to send it to an HTTP server. There are plenty of initializers for a `Request`. Here are some examples.
+
+```swift
+// using URI with path
+let uri = URI(path: "/")
+let request = Request(method: .GET, uri: uri)
+
+// using URI with path and query
+let uri = URI(
+	path: "/users",
+	query: [
+		"count": "10"
+	]
+)
+let request = Request(method: .GET, uri: uri)
+
+// using headers and uri as String
+let headers: Headers = [
+	"Connection": "close"
+]
+let request = try Request(method: .GET, uri: "/users?count=10", headers: headers)
+
+// using cookies
+let cookies: Cookies = [
+    Cookie(name: "color", value: "blue")
+]
+let request = try Request(method: .GET, uri: "/", cookies: cookies)
+
+// body as a buffer with Data
+let hello: Data = [104, 101, 108, 108, 111]
+let request = try Request(method: .POST, uri: "/hello", body: hello)
+
+// body as a buffer with DataConvertible (String)
+let request = try Request(method: .POST, uri: "/hello", body: "hello")
+
+// body as a buffer with DataConvertible (JSON)
+let json: JSON = [
+	"hello": "world"
+]
+let request = try Request(method: .POST, uri: "/hello", body: json)
+
+// body as a stream
+let fileStream = FileStream(file: file)
+let request = try Request(method: .POST, uri: "/hello", body: fileStream)
+```
+
+
+
+
+Sometimes you want to upgrade your request to another protocol like [`WebSocket`](https://github.com/Zewo/Websocket). You can take full control of the transport stream after the `Response` if you provide an `Upgrade` function.
+
+```swift
+let request = Request(method: .GET, uri: "/") { response, stream in
+    // here you can do whatever you want with the transport stream
+}
+```
+
+> **Warning**: Don't confuse the *body* stream with the *transport* stream. The *body* stream is used to send/receive binary data in the HTTP message body. While *transport* stream is the raw stream of binary data sent/received from the client and server. After you upgrade you can use the *transport* stream to communicate in any other protocol you want.
 
 ### Response
 
