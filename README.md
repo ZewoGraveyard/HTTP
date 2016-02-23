@@ -51,7 +51,9 @@ The `HeaderName` type is simply a wrapper for a case insensitive key. This means
  
 ```swift
 request.headers["Content-Type"] = "application/json"
-let contentType = request.headers["content-type"]
+if let contentType = request.headers["content-type"] {
+    // do something with contentType
+}
 ```
 
 `contentType` will receive the value `"application/json"`.
@@ -81,7 +83,9 @@ So instead of accessing the raw string you can get the `MediaType` value.
 
 ```swift
 response.contentType = JSONMediaType
-let contentType = response.contentType
+if let contentType = response.contentType {
+    // do something with contentType
+}
 ```
 
 `contentType` will receive the value `JSONMediaType`.
@@ -121,7 +125,7 @@ public enum Body {
 }
 ```
 
-`Body` has some computed properties to facilitate the access of the associated values.
+`Body` has some computed properties to facilitate the access of associated values.
 
 ```swift
 request.body.buffer = [104, 101, 108, 108, 111]
@@ -156,11 +160,11 @@ Just like `header`, the preferred way to access values from the `storage` is thr
 extension Request {
     public var user: User? {
         get {
-            return headers["User"] as? User
+            return storage["User"] as? User
         }
 
         set {
-            headers["User"] = newValue
+            storage["User"] = newValue
         }
     }
 }
