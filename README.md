@@ -160,11 +160,11 @@ Just like `header`, the preferred way to access values from the `storage` is thr
 extension Request {
     public var user: User? {
         get {
-            return storage["User"] as? User
+            return storage["user"] as? User
         }
 
         set {
-            storage["User"] = newValue
+            storage["user"] = newValue
         }
     }
 }
@@ -235,26 +235,23 @@ let cookies: Cookies = [
 ]
 let request = try Request(method: .GET, uri: "/", cookies: cookies)
 
-// body as a buffer with Data
+// using body as a buffer with Data
 let hello: Data = [104, 101, 108, 108, 111]
 let request = try Request(method: .POST, uri: "/hello", body: hello)
 
-// body as a buffer with DataConvertible (String)
+// using body as a buffer with DataConvertible (String)
 let request = try Request(method: .POST, uri: "/hello", body: "hello")
 
-// body as a buffer with DataConvertible (JSON)
+// using body as a buffer with DataConvertible (JSON)
 let json: JSON = [
 	"hello": "world"
 ]
 let request = try Request(method: .POST, uri: "/hello", body: json)
 
-// body as a stream
+// using body as a stream
 let fileStream = FileStream(file: file)
 let request = try Request(method: .POST, uri: "/hello", body: fileStream)
 ```
-
-
-
 
 Sometimes you want to upgrade your request to another protocol like [`WebSocket`](https://github.com/Zewo/Websocket). You can take full control of the transport stream after the `Response` if you provide an `Upgrade` function.
 
