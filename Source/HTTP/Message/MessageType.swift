@@ -100,7 +100,7 @@ extension MessageType {
     public var contentType: MediaType? {
         get {
             if let contentType = headers["Content-Type"] {
-                return MediaType(string: contentType)
+                return try? MediaType(string: contentType)
             }
             return nil
         }

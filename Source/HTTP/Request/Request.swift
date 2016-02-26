@@ -147,7 +147,9 @@ extension Request {
 
                     if acceptedTypeTokens.count >= 1 {
                         let mediaTypeString = acceptedTypeTokens[0].trim()
-                        acceptedMediaTypes.append(MediaType(string: mediaTypeString))
+                        if let acceptedMediaType = try? MediaType(string: mediaTypeString) {
+                            acceptedMediaTypes.append(acceptedMediaType)
+                        }
                     }
                 }
             }
