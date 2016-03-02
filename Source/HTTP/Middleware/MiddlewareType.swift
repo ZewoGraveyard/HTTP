@@ -43,7 +43,7 @@ extension MiddlewareType {
 public struct Middleware: MiddlewareType {
     let respond: (request: Request, chain: ChainType) throws -> Response
 
-    public init(respond: (request: Request, chain: ChainType) throws -> Response) {
+    public init(_ respond: (request: Request, chain: ChainType) throws -> Response) {
         self.respond = respond
     }
 
@@ -74,7 +74,7 @@ extension CollectionType where Self.Generator.Element == MiddlewareType {
     }
 
     public func intercept(respond: Respond) -> ResponderType {
-        return intercept(Responder(respond: respond))
+        return intercept(Responder(respond))
     }
 }
 

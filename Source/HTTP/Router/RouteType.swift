@@ -26,15 +26,29 @@ public struct Action: ResponderType {
     public let middleware: [MiddlewareType]
     public let responder: ResponderType
 
-    public init(middleware: [MiddlewareType] = [], responder: ResponderType) {
+    public init(middleware: [MiddlewareType], responder: ResponderType) {
         self.middleware = middleware
         self.responder = responder
     }
 
-    public init(middleware: [MiddlewareType] = [], respond: Respond) {
+    public init(_ responder: ResponderType) {
+        self.init(
+            middleware: [],
+            responder: responder
+        )
+    }
+
+    public init(middleware: [MiddlewareType], respond: Respond) {
         self.init(
             middleware: middleware,
-            responder: Responder(respond: respond)
+            responder: Responder(respond)
+        )
+    }
+
+    public init(_ respond: Respond) {
+        self.init(
+            middleware: [],
+            responder: Responder(respond)
         )
     }
 
@@ -51,7 +65,9 @@ public protocol RouteType: ResponderType, CustomStringConvertible {
 
 extension RouteType {
     public var fallback: Action {
-        return Action(responder: Responder { _ in Response(status: .MethodNotAllowed) })
+        return Action { _ in
+            Response(status: .MethodNotAllowed)
+        }
     }
 
     public func respond(request: Request) throws -> Response {

@@ -41,7 +41,7 @@ public typealias Respond = Request throws -> Response
 public struct Responder: ResponderType {
     let respond: Respond
 
-    public init(respond: Respond) {
+    public init(_ respond: Respond) {
         self.respond = respond
     }
 

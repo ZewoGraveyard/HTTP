@@ -173,7 +173,7 @@ func onRequestHeadersComplete(parser: Parser) -> Int32 {
         $0.method = Method(code: Int(parser.memory.method))
         $0.version = (Int(parser.memory.http_major), Int(parser.memory.http_minor))
 
-        guard let uri = try? URI(string: $0.currentURI) else {
+        guard let uri = try? URI($0.currentURI) else {
             return 1
         }
 

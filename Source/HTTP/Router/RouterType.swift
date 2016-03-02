@@ -31,7 +31,7 @@ public protocol RouterType: ResponderType {
 
 extension RouterType {
     public func respond(request: Request) throws -> Response {
-        let responder = match(request) ?? Responder(respond: fallback.respond)
+        let responder: ResponderType = match(request) ?? Responder(fallback.respond)
         return try middleware.intercept(responder).respond(request)
     }
 }

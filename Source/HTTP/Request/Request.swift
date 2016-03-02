@@ -51,7 +51,7 @@ public struct Request: MessageType {
 }
 
 extension Request {
-    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: Body, upgrade: Upgrade? = nil) {
+    public init(method: Method = .GET, uri: URI = URI(path: "/"), headers: Headers = [:], cookies: Cookies = [], body: Body, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
@@ -69,7 +69,7 @@ extension Request {
         }
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) {
+    public init(method: Method = .GET, uri: URI = URI(path: "/"), headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
@@ -80,7 +80,7 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) {
+    public init(method: Method = .GET, uri: URI = URI(path: "/"), headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
@@ -91,7 +91,7 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: URI, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) {
+    public init(method: Method = .GET, uri: URI = URI(path: "/"), headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
@@ -102,10 +102,10 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .GET, uri: String, headers: Headers = [:], cookies: Cookies = [], body: Data = nil, upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
-            uri: try URI(string: uri),
+            uri: try URI(uri),
             headers: headers,
             cookies: cookies,
             body: body,
@@ -113,7 +113,7 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .GET, uri: String, headers: Headers = [:], cookies: Cookies = [], body: DataConvertible, upgrade: Upgrade? = nil) throws {
         try self.init(
             method: method,
             uri: uri,
@@ -124,10 +124,10 @@ extension Request {
         )
     }
 
-    public init(method: Method, uri: String, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .GET, uri: String, headers: Headers = [:], cookies: Cookies = [], body: StreamType, upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
-            uri: try URI(string: uri),
+            uri: try URI(uri),
             headers: headers,
             cookies: cookies,
             body: body,
