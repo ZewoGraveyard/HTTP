@@ -134,10 +134,6 @@ func onRequestHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: Int
             return 1
         }
 
-        if $0.buildingCookieValue != "" {
-            $0.buildingCookieValue = ""
-        }
-
         $0.buildingHeaderField += headerField
         return 0
     }
