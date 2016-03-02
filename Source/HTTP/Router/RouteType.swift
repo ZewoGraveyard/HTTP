@@ -1,4 +1,4 @@
-// Route.swift
+// RouteType.swift
 //
 // The MIT License (MIT)
 //
@@ -22,20 +22,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public struct Route: ResponderType {
-    public let methods: Set<Method>
-    public let path: String
+public struct Action: ResponderType {
     public let middleware: [MiddlewareType]
     public let responder: ResponderType
 
-    public init(methods: Set<Method>, path: String, middleware: [MiddlewareType], responder: ResponderType) {
-        self.methods = methods
-        self.path = path
+    public init(middleware: [MiddlewareType] = [], responder: ResponderType) {
         self.middleware = middleware
         self.responder = responder
     }
 
+    public init(middleware: [MiddlewareType] = [], respond: Respond) {
+        self.init(
+            middleware: middleware,
+            responder: Responder(respond: respond)
+        )
+    }
+
     public func respond(request: Request) throws -> Response {
         return try middleware.intercept(responder).respond(request)
+    }
+}
+
+public protocol RouteType: ResponderType, CustomStringConvertible {
+    var path: String { get }
+    var actions: [Method: Action] { get }
+    var fallback: Action { get }
+}
+
+extension RouteType {
+    public var fallback: Action {
+        return Action(responder: Responder { _ in Response(status: .MethodNotAllowed) })
+    }
+
+    public func respond(request: Request) throws -> Response {
+        let action = actions[request.method] ?? fallback
+        return try action.respond(request)
+    }
+}
+
+extension RouteType {
+    public var description: String {
+        var string = ""
+        for (method, action) in actions {
+            string += "\(method) \(path) \(action.middleware) \(action.responder)\n"
+        }
+        string += "\(fallback)"
+        return string
     }
 }

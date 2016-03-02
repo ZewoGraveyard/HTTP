@@ -23,17 +23,7 @@
 // SOFTWARE.
 
 public protocol RouteMatcherType {
-    var routes: [Route] { get }
-    init(routes: [Route])
-    func match(request: Request) -> Route?
-}
-
-extension RouteMatcherType {
-    public func splitPathIntoComponents(path: String) -> [String] {
-        return path.split("/")
-    }
-
-    public func mergePathComponents(components: [String]) -> String {
-        return components.joinWithSeparator("/")
-    }
+    var routes: [RouteType] { get }
+    init(routes: [RouteType])
+    func match(request: Request) -> RouteType?
 }

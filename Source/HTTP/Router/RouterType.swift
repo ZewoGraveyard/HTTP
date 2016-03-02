@@ -24,13 +24,24 @@
 
 public protocol RouterType: ResponderType {
     var middleware: [MiddlewareType] { get }
-    var matcher: RouteMatcherType { get }
-    var fallback: ResponderType { get }
+    var routes: [RouteType] { get }
+    var fallback: Action { get }
+    func match(request: Request) -> RouteType?
 }
 
 extension RouterType {
     public func respond(request: Request) throws -> Response {
-        let responder = matcher.match(request) ?? fallback
+        let responder = match(request) ?? Responder(respond: fallback.respond)
         return try middleware.intercept(responder).respond(request)
+    }
+}
+
+extension RouterType {
+    public func splitPathIntoComponents(path: String) -> [String] {
+        return path.split("/")
+    }
+
+    public func mergePathComponents(components: [String]) -> String {
+        return "/" + components.joinWithSeparator("/")
     }
 }
