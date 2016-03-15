@@ -86,3 +86,23 @@ extension RouteType {
         return string
     }
 }
+
+public final class Route: RouteType {
+    public let path: String
+    public var actions: [Method: Action]
+    public var fallback: Action
+
+    public init(path: String, actions: [Method: Action] = [:], fallback: Action = Route.defaultFallback) {
+        self.path = path
+        self.actions = actions
+        self.fallback = fallback
+    }
+
+    public func addAction(method method: Method, action: Action) {
+        actions[method] = action
+    }
+
+    public static let defaultFallback = Action { _ in
+        Response(status: .MethodNotAllowed)
+    }
+}
