@@ -202,6 +202,11 @@ extension Request {
         }
     }
 
+    public var id: String? {
+        get { return pathParameters["id"] }
+        set { pathParameters["id"] = newValue }
+    }
+
     public var path: String? {
         return uri.path
     }
