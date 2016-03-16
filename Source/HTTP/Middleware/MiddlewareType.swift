@@ -52,11 +52,11 @@ public struct Middleware: MiddlewareType {
     }
 }
 
-extension CollectionType where Self.Generator.Element == MiddlewareType {
+extension Collection where Self.Iterator.Element == MiddlewareType {
     public func intercept(responder: ChainType) -> ChainType {
         var responder = responder
 
-        for middleware in self.reverse() {
+        for middleware in self.reversed() {
             responder = middleware.intercept(responder)
         }
 
@@ -66,7 +66,7 @@ extension CollectionType where Self.Generator.Element == MiddlewareType {
     public func intercept(responder: ResponderType) -> ResponderType {
         var responder = responder
 
-        for middleware in self.reverse() {
+        for middleware in self.reversed() {
             responder = middleware.intercept(responder)
         }
 

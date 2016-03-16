@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public enum CookieError: ErrorType {
+public enum CookieError: ErrorProtocol {
     case InvalidString
 }
 
@@ -117,7 +117,7 @@ extension Cookie {
         let tokens = string.split(";")
 
         for i in 0 ..< tokens.count {
-            let cookieTokens = tokens[i].split("=", maxSplit: 1)
+            let cookieTokens = tokens[i].split("=", maxSplits: 1)
 
             if cookieTokens.count != 2 {
                 throw CookieError.InvalidString

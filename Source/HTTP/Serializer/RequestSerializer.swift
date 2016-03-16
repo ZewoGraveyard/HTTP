@@ -40,7 +40,7 @@ public struct RequestSerializer: RequestSerializerType {
 
         if request.cookies.count > 0 {
             try send("Cookie:" )
-            for (index, cookie) in request.cookies.enumerate() {
+            for (index, cookie) in request.cookies.enumerated() {
                 try send(" \(cookie.name)=\(cookie.value)".data)
 
                 if index < request.cookies.count - 1 {

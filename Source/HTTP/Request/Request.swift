@@ -158,7 +158,7 @@ extension Request {
         }
 
         set {
-            let header = newValue.map({"\($0.type)/\($0.subtype)"}).joinWithSeparator(", ")
+            let header = newValue.map({"\($0.type)/\($0.subtype)"}).joined(separator: ", ")
             headers["Accept"] = header
         }
     }
@@ -224,7 +224,7 @@ extension Request: CustomStringConvertible {
     public var cookiesDescription: String {
         var string = "Cookie:"
 
-        for (index, cookie) in cookies.enumerate() {
+        for (index, cookie) in cookies.enumerated() {
             string += " \(cookie.name)=\(cookie.value)"
 
             if index < cookies.count - 1 {

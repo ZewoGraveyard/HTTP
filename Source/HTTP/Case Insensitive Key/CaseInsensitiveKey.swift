@@ -32,12 +32,12 @@ public struct CaseInsensitiveKey {
 
 extension CaseInsensitiveKey: Hashable {
     public var hashValue: Int {
-        return name.lowercaseString.hashValue
+        return name.lowercased().hashValue
     }
 }
 
 public func ==(lhs: CaseInsensitiveKey, rhs: CaseInsensitiveKey) -> Bool {
-    return lhs.name.lowercaseString == rhs.name.lowercaseString
+    return lhs.name.lowercased() == rhs.name.lowercased()
 }
 
 extension CaseInsensitiveKey: StringLiteralConvertible {

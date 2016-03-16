@@ -65,8 +65,8 @@ public final class ResponseParser: ResponseParserType {
     var response: Response?
 
     public init() {
-        context = ResponseContext.alloc(1)
-        context.initialize(ResponseParserContext { response in
+        context = ResponseContext(allocatingCapacity: 1)
+        context.initialize(with: ResponseParserContext { response in
             self.response = response
         })
 
@@ -74,8 +74,8 @@ public final class ResponseParser: ResponseParserType {
     }
 
     deinit {
-        context.destroy()
-        context.dealloc(1)
+        context.deinitialize(count: 1)
+        context.deallocateCapacity(1)
     }
 
     func resetParser() {
@@ -98,7 +98,7 @@ public final class ResponseParser: ResponseParserType {
             resetParser()
             let errorName = http_errno_name(http_errno(parser.http_errno))
             let errorDescription = http_errno_description(http_errno(parser.http_errno))
-            let error = ParseError(description: "\(String.fromCString(errorName)!): \(String.fromCString(errorDescription)!)")
+            let error = ParseError(description: "\(String(validatingUTF8: errorName)!): \(String(validatingUTF8: errorDescription)!)")
             throw error
         }
 
@@ -117,7 +117,7 @@ extension ResponseParser {
 }
 
 func onResponseStatus(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         guard let reasonPhrase = String(pointer: data, length: length) else {
             return 1
         }
@@ -128,7 +128,7 @@ func onResponseStatus(parser: Parser, data: UnsafePointer<Int8>, length: Int) ->
 }
 
 func onResponseHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         guard let headerField = String(pointer: data, length: length) else {
             return 1
         }
@@ -146,7 +146,7 @@ func onResponseHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: In
 }
 
 func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         if $0.buildingHeaderField != "" {
             $0.currentHeaderField = $0.buildingHeaderField
         }
@@ -171,7 +171,7 @@ func onResponseHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: In
 }
 
 func onResponseHeadersComplete(parser: Parser) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         if $0.buildingCookieValue != "" {
             if let cookie = try? Cookie.parseSetCookie($0.buildingCookieValue) {
                 $0.cookies.insert(cookie)
@@ -181,21 +181,21 @@ func onResponseHeadersComplete(parser: Parser) -> Int32 {
         $0.buildingCookieValue = ""
         $0.buildingHeaderField = ""
         $0.currentHeaderField = ""
-        $0.statusCode = Int(parser.memory.status_code)
-        $0.version = (Int(parser.memory.http_major), Int(parser.memory.http_minor))
+        $0.statusCode = Int(parser.pointee.status_code)
+        $0.version = (Int(parser.pointee.http_major), Int(parser.pointee.http_minor))
         return 0
     }
 }
 
 func onResponseBody(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         $0.body += Data(pointer: data, length: length)
         return 0
     }
 }
 
 func onResponseMessageComplete(parser: Parser) -> Int32 {
-    return ResponseContext(parser.memory.data).withMemory {
+    return ResponseContext(parser.pointee.data).withMemory {
         let response = Response(
             status: Status(statusCode: $0.statusCode, reasonPhrase: $0.reasonPhrase),
             version: $0.version,

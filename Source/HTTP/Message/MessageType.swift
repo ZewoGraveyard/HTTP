@@ -125,7 +125,7 @@ extension MessageType {
     }
 
     public var isChunkEncoded: Bool {
-        return transferEncoding?.lowercaseString == "chunked"
+        return transferEncoding?.lowercased() == "chunked"
     }
 
     public var transferEncoding: String? {
@@ -150,14 +150,14 @@ extension MessageType {
 
     public var isKeepAlive: Bool {
         if version.minor == 0 {
-            return connection?.lowercaseString == "keep-alive"
+            return connection?.lowercased() == "keep-alive"
         }
 
-        return connection?.lowercaseString != "close"
+        return connection?.lowercased() != "close"
     }
 
     public var isUpgrade: Bool {
-        return connection?.lowercaseString == "upgrade"
+        return connection?.lowercased() == "upgrade"
     }
 
     public var upgrade: String? {
@@ -202,7 +202,7 @@ extension MessageType {
             string += "-"
         }
 
-        for (index, (key, value)) in storage.enumerate() {
+        for (offset: index, element: (key: key, value: value)) in storage.enumerated() {
             string += "\(key): \(value)"
 
             if index < storage.count - 1 {

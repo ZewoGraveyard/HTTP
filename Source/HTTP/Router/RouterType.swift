@@ -42,6 +42,6 @@ extension RouterType {
     }
 
     public func mergePathComponents(components: [String]) -> String {
-        return "/" + components.joinWithSeparator("/")
+        return "/" + components.joined(separator: "/")
     }
 }
