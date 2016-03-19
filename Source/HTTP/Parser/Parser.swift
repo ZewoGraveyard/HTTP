@@ -26,7 +26,7 @@ import CHTTPParser
 
 typealias Parser = UnsafeMutablePointer<http_parser>
 
-struct ParseError: ErrorType {
+struct ParseError: ErrorProtocol {
     let description: String
 }
 
@@ -72,7 +72,7 @@ extension Method {
 }
 
 extension UnsafeMutablePointer {
-    func withMemory<R>(@noescape body: (inout Memory) throws -> R) rethrows -> R {
-        return try body(&memory)
+    func withMemory<R>(@noescape body: (inout Pointee) throws -> R) rethrows -> R {
+        return try body(&pointee)
     }
 }

@@ -68,8 +68,8 @@ public final class RequestParser: RequestParserType {
     var request: Request?
 
     public init() {
-        context = RequestContext.alloc(1)
-        context.initialize(RequestParserContext { request in
+        context = RequestContext(allocatingCapacity: 1)
+        context.initialize(with: RequestParserContext { request in
             self.request = request
         })
 
@@ -77,8 +77,8 @@ public final class RequestParser: RequestParserType {
     }
 
     deinit {
-        context.destroy()
-        context.dealloc(1)
+        context.deinitialize(count:1)
+        context.deallocateCapacity(1)
     }
 
     func resetParser() {
@@ -99,7 +99,7 @@ public final class RequestParser: RequestParserType {
             resetParser()
             let errorName = http_errno_name(http_errno(parser.http_errno))
             let errorDescription = http_errno_description(http_errno(parser.http_errno))
-            let error = ParseError(description: "\(String.fromCString(errorName)!): \(String.fromCString(errorDescription)!)")
+            let error = ParseError(description: "\(String(validatingUTF8: errorName)!): \(String(validatingUTF8: errorDescription)!)")
             throw error
         }
 
@@ -118,7 +118,7 @@ extension RequestParser {
 }
 
 func onRequestURL(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return RequestContext(parser.memory.data).withMemory {
+    return RequestContext(parser.pointee.data).withMemory {
         guard let uri = String(pointer: data, length: length) else {
             return 1
         }
@@ -129,7 +129,7 @@ func onRequestURL(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int
 }
 
 func onRequestHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return RequestContext(parser.memory.data).withMemory {
+    return RequestContext(parser.pointee.data).withMemory {
         guard let headerField = String(pointer: data, length: length) else {
             return 1
         }
@@ -140,7 +140,7 @@ func onRequestHeaderField(parser: Parser, data: UnsafePointer<Int8>, length: Int
 }
 
 func onRequestHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    return RequestContext(parser.memory.data).withMemory {
+    return RequestContext(parser.pointee.data).withMemory {
         if $0.buildingHeaderField != "" {
             $0.currentHeaderField = $0.buildingHeaderField
         }
@@ -165,9 +165,9 @@ func onRequestHeaderValue(parser: Parser, data: UnsafePointer<Int8>, length: Int
 }
 
 func onRequestHeadersComplete(parser: Parser) -> Int32 {
-    return RequestContext(parser.memory.data).withMemory {
-        $0.method = Method(code: Int(parser.memory.method))
-        $0.version = (Int(parser.memory.http_major), Int(parser.memory.http_minor))
+    return RequestContext(parser.pointee.data).withMemory {
+        $0.method = Method(code: Int(parser.pointee.method))
+        $0.version = (Int(parser.pointee.http_major), Int(parser.pointee.http_minor))
 
         guard let uri = try? URI($0.currentURI) else {
             return 1
@@ -189,7 +189,7 @@ func onRequestHeadersComplete(parser: Parser) -> Int32 {
 }
 
 func onRequestBody(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> Int32 {
-    RequestContext(parser.memory.data).withMemory {
+    RequestContext(parser.pointee.data).withMemory {
         $0.body += Data(pointer: data, length: length)
     }
 
@@ -197,7 +197,7 @@ func onRequestBody(parser: Parser, data: UnsafePointer<Int8>, length: Int) -> In
 }
 
 func onRequestMessageComplete(parser: Parser) -> Int32 {
-    return RequestContext(parser.memory.data).withMemory {
+    return RequestContext(parser.pointee.data).withMemory {
         let request = Request(
             method: $0.method,
             uri: $0.uri,
