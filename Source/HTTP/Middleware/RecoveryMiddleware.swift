@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public typealias Recover = ErrorType throws -> Response
+public typealias Recover = ErrorProtocol throws -> Response
 
 public struct RecoveryMiddleware: MiddlewareType {
     let recover: Recover
