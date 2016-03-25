@@ -24,8 +24,8 @@
 
 import XCTest
 
-@testable import HTTPTeststest
+@testable import HTTPTestSuite
 
 XCTMain([
-   MessageTests()
+    testCase(MessageTests.allTests),
 ])
