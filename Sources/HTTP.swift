@@ -1,4 +1,4 @@
-// CaseInsensitiveKey.swift
+// HTTP.swift
 //
 // The MIT License (MIT)
 //
@@ -22,40 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public struct CaseInsensitiveKey {
-    public let name: String
-
-    public init(_ name: String) {
-        self.name = name
-    }
-}
-
-extension CaseInsensitiveKey: Hashable {
-    public var hashValue: Int {
-        return name.lowercased().hashValue
-    }
-}
-
-public func ==(lhs: CaseInsensitiveKey, rhs: CaseInsensitiveKey) -> Bool {
-    return lhs.name.lowercased() == rhs.name.lowercased()
-}
-
-extension CaseInsensitiveKey: StringLiteralConvertible {
-    public init(stringLiteral string: String) {
-        self.init(string)
-    }
-
-    public init(extendedGraphemeClusterLiteral string: String){
-        self.init(string)
-    }
-
-    public init(unicodeScalarLiteral string: String){
-        self.init(string)
-    }
-}
-
-extension CaseInsensitiveKey: CustomStringConvertible {
-    public var description: String {
-        return name
-    }
-}
+@_exported import S4
+@_exported import String
+@_exported import MediaType
+@_exported import URI

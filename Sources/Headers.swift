@@ -1,4 +1,4 @@
-// BranchMiddleware.swift
+// Headers.swift
 //
 // The MIT License (MIT)
 //
@@ -22,39 +22,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public struct BranchCondition {
-    public let shouldBranch: Request throws -> Bool
+extension Headers: CustomStringConvertible {
+    public var description: String {
+        var string = ""
 
-    public init(shouldBranch: Request throws -> Bool) {
-        self.shouldBranch = shouldBranch
-    }
-}
-
-public func branch(condition: BranchCondition, yes: MiddlewareType, no: MiddlewareType? = nil) -> BranchMiddleware {
-    return BranchMiddleware(condition, yes: yes, no: no)
-}
-
-public struct BranchMiddleware: MiddlewareType {
-    let condition: BranchCondition
-    let truthy: MiddlewareType
-    let falsy: MiddlewareType?
-
-    public init(_ condition: BranchCondition, yes truthy: MiddlewareType, no falsy: MiddlewareType? = nil) {
-        self.condition = condition
-        self.truthy = truthy
-        self.falsy = falsy
-    }
-
-    public func respond(request: Request, chain: ChainType) throws -> Response {
-        if try condition.shouldBranch(request) {
-            return try truthy.intercept(chain).proceed(request)
-        } else {
-            if let falsy = falsy {
-                return try falsy.intercept(chain).proceed(request)
-            } else {
-                return try chain.proceed(request)
+        for (header, values) in headers {
+            for value in values {
+                string += "\(header): \(value)\n"
             }
         }
+        
+        return string
     }
 }
-

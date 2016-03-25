@@ -1,4 +1,4 @@
-// RouterType.swift
+// HeaderValues.swift
 //
 // The MIT License (MIT)
 //
@@ -22,26 +22,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public protocol RouterType: ResponderType {
-    var middleware: [MiddlewareType] { get }
-    var routes: [RouteType] { get }
-    var fallback: Action { get }
-    func match(request: Request) -> RouteType?
-}
+extension HeaderValues {
+    public init(merging values: [String]) {
+        self.init([values.joined(separator: ", ")])
+    }
 
-extension RouterType {
-    public func respond(request: Request) throws -> Response {
-        let responder: ResponderType = match(request) ?? Responder(fallback.respond)
-        return try middleware.intercept(responder).respond(request)
+    public init(_ value: String?) {
+        self.init(value.map({[$0]}) ?? [])
+    }
+
+    public init(_ values: [String]?) {
+        self.init(values ?? [])
     }
 }
 
-extension RouterType {
-    public func splitPathIntoComponents(path: String) -> [String] {
-        return path.split("/")
-    }
-
-    public func mergePathComponents(components: [String]) -> String {
-        return "/" + components.joined(separator: "/")
+extension HeaderValues: CustomStringConvertible {
+    public var description: String {
+        return merged() ?? ""
     }
 }
+
+extension HeaderValues {
+    public func merged() -> String? {
+        if values.isEmpty {
+            return nil
+        }
+
+        var string = ""
+        for (index, value) in values.enumerated() {
+            if index > 0 {
+                string += ", "
+            }
+            string += value
+        }
+        return string
+    }
+}
+
+//public func +=(lhs: inout HeaderValues, rhs: HeaderValues) {
+//    lhs.values += rhs.values
+//}
+//
+//public func +=(lhs: inout HeaderValues, rhs: String) {
+//    lhs.values += [rhs]
+//}

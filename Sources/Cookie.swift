@@ -1,4 +1,4 @@
-// ResponderType.swift
+// Cookie.swift
 //
 // The MIT License (MIT)
 //
@@ -22,30 +22,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public protocol ChainType {
-    func proceed(request: Request) throws -> Response
-}
+public struct Cookie {
+    public var name: String
+    public var value: String
 
-public protocol ResponderType: ChainType {
-    func respond(request: Request) throws -> Response
-}
-
-extension ResponderType {
-    public func proceed(request: Request) throws -> Response {
-        return try respond(request)
+    public init(name: String, value: String) {
+        self.name = name
+        self.value = value
     }
 }
 
-public typealias Respond = Request throws -> Response
-
-public struct Responder: ResponderType {
-    let respond: Respond
-
-    public init(_ respond: Respond) {
-        self.respond = respond
+extension Cookie: Hashable {
+    public var hashValue: Int {
+        return name.hashValue
     }
+}
 
-    public func respond(request: Request) throws -> Response {
-        return try respond(request)
+public func ==(lhs: Cookie, rhs: Cookie) -> Bool {
+    return lhs.name == rhs.name
+}
+
+extension Cookie: CustomStringConvertible {
+    public var description: String {
+        return "\(name)=\(value)"
+    }
+}
+
+extension Cookie {
+    public static func parse(string: String) -> Set<Cookie>? {
+        var cookies = Set<Cookie>()
+        let tokens = string.split(";")
+
+        for i in 0 ..< tokens.count {
+            let cookieTokens = tokens[i].split("=", maxSplits: 1)
+
+            if cookieTokens.count != 2 {
+                return nil
+            }
+
+            cookies.insert(Cookie(name: cookieTokens[0].trim(), value: cookieTokens[1].trim()))
+        }
+        
+        return cookies
     }
 }

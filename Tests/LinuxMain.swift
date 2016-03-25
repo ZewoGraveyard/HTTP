@@ -1,4 +1,4 @@
-// RouteMatcherType.swift
+// LinuxMain.swift
 //
 // The MIT License (MIT)
 //
@@ -22,8 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-public protocol RouteMatcherType {
-    var routes: [RouteType] { get }
-    init(routes: [RouteType])
-    func match(request: Request) -> RouteType?
-}
+import XCTest
+
+@testable import HTTPTeststest
+
+XCTMain([
+   MessageTests()
+])
