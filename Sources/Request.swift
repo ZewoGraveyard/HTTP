@@ -37,30 +37,26 @@ extension Request {
 }
 
 extension Request {
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, upgrade: Upgrade? = nil) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, upgrade: Upgrade?) {
         self.init(
             method: method,
             uri: uri,
-            version: Version(major: 1, minor: 1),
             headers: headers,
             body: body
         )
 
         self.upgrade = upgrade
-        self.transferEncoding = "chunked"
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
         self.init(
             method: method,
             uri: uri,
-            version: Version(major: 1, minor: 1),
             headers: headers,
-            body: Drain(body)
+            body: body
         )
 
         self.upgrade = upgrade
-        self.contentLength = body.count
     }
 
     public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {

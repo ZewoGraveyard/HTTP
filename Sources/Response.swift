@@ -37,28 +37,24 @@ extension Response {
 }
 
 extension Response {
-    public init(status: Status = .ok, headers: Headers = [:], body: Stream, upgrade: Upgrade? = nil) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Stream, upgrade: Upgrade?) {
         self.init(
-            version: Version(major: 1, minor: 1),
             status: status,
             headers: headers,
             body: body
         )
 
         self.upgrade = upgrade
-        self.transferEncoding = "chunked"
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
         self.init(
-            version: Version(major: 1, minor: 1),
             status: status,
             headers: headers,
-            body: Drain(body)
+            body: body
         )
 
         self.upgrade = upgrade
-        self.contentLength = body.count
     }
 
     public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {
