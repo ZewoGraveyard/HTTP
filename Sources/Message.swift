@@ -23,23 +23,6 @@
 // SOFTWARE.
 
 extension Message {
-    public var buffer: Data {
-        mutating get {
-            if let drain = body as? Drain {
-                return drain.data
-            }
-            let drain = Drain(body)
-            body = drain
-            return drain.data
-        }
-
-        set(buffer) {
-            body = Drain(buffer)
-        }
-    }
-}
-
-extension Message {
     public var contentType: MediaType? {
         get {
             return headers["Content-Type"].first.flatMap({try? MediaType(string: $0)})

@@ -14,11 +14,6 @@ public final class BasicRoute: Route {
     }
 
     public static let defaultFallback = BasicResponder { _ in
-        Response(
-            version: Version(major: 1, minor: 1),
-            status: .methodNotAllowed,
-            headers: [:],
-            body: Drain()
-        )
+        Response(status: .methodNotAllowed)
     }
 }
