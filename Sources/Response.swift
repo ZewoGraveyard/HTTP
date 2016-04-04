@@ -27,11 +27,11 @@ extension Response {
 
     public var upgrade: Upgrade? {
         get {
-            return storage["response-upgrade"] as? Upgrade
+            return storage["response-connection-upgrade"] as? Upgrade
         }
 
         set(upgrade) {
-            storage["response-upgrade"] = upgrade
+            storage["response-connection-upgrade"] = upgrade
         }
     }
 }
