@@ -48,7 +48,7 @@ extension Request {
         self.upgrade = upgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
         self.init(
             method: method,
             uri: uri,
@@ -69,7 +69,7 @@ extension Request {
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
@@ -105,7 +105,7 @@ extension Request {
         return uri.path
     }
 
-    public var query: [URI.Query] {
+    public var query: Query {
         return uri.query
     }
 }

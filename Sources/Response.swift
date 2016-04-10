@@ -47,7 +47,7 @@ extension Response {
         self.upgrade = upgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
         self.init(
             status: status,
             headers: headers,
