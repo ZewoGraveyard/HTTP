@@ -86,7 +86,7 @@ extension Response {
         }
 
         set(cookies) {
-            headers["Set-Cookie"] = HeaderValues(cookies.map({$0.description}))
+            headers["Set-Cookie"] = Header(cookies.map({$0.description}))
         }
     }
 }

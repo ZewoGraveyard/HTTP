@@ -134,7 +134,7 @@ extension Request {
         }
 
         set(accept) {
-            headers["Accept"] = HeaderValues(merging: accept.map({"\($0.type)/\($0.subtype)"}))
+            headers["Accept"] = Header(merging: accept.map({"\($0.type)/\($0.subtype)"}))
         }
     }
 
@@ -144,7 +144,7 @@ extension Request {
         }
 
         set(cookies) {
-            headers["Cookie"] = HeaderValues(merging: cookies.map({$0.description}))
+            headers["Cookie"] = Header(merging: cookies.map({$0.description}))
         }
     }
 
@@ -154,7 +154,7 @@ extension Request {
         }
 
         set(host) {
-            headers["Host"] = host.map({HeaderValues($0)}) ?? nil
+            headers["Host"] = host.map({Header($0)}) ?? []
         }
     }
 
@@ -164,7 +164,7 @@ extension Request {
         }
 
         set(userAgent) {
-            headers["User-Agent"] = HeaderValues(userAgent)
+            headers["User-Agent"] = Header(userAgent)
         }
     }
 
@@ -174,7 +174,7 @@ extension Request {
         }
 
         set(authorization) {
-            headers["Authorization"] = HeaderValues(authorization)
+            headers["Authorization"] = Header(authorization)
         }
     }
 }

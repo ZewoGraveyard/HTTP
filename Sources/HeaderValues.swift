@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-extension HeaderValues {
+extension Header {
     public init(merging values: [String]) {
         self.init([values.joined(separator: ", ")])
     }
@@ -36,13 +36,13 @@ extension HeaderValues {
     }
 }
 
-extension HeaderValues: CustomStringConvertible {
+extension Header: CustomStringConvertible {
     public var description: String {
         return merged() ?? ""
     }
 }
 
-extension HeaderValues {
+extension Header {
     public func merged() -> String? {
         if values.isEmpty {
             return nil
