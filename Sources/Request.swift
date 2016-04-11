@@ -48,7 +48,7 @@ extension Request {
         self.upgrade = upgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
         self.init(
             method: method,
             uri: uri,
@@ -69,7 +69,7 @@ extension Request {
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = nil, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
@@ -105,7 +105,7 @@ extension Request {
         return uri.path
     }
 
-    public var query: [URI.Query] {
+    public var query: Query {
         return uri.query
     }
 }
@@ -134,7 +134,7 @@ extension Request {
         }
 
         set(accept) {
-            headers["Accept"] = HeaderValues(merging: accept.map({"\($0.type)/\($0.subtype)"}))
+            headers["Accept"] = Header(merging: accept.map({"\($0.type)/\($0.subtype)"}))
         }
     }
 
@@ -144,7 +144,7 @@ extension Request {
         }
 
         set(cookies) {
-            headers["Cookie"] = HeaderValues(merging: cookies.map({$0.description}))
+            headers["Cookie"] = Header(merging: cookies.map({$0.description}))
         }
     }
 
@@ -154,7 +154,7 @@ extension Request {
         }
 
         set(host) {
-            headers["Host"] = host.map({HeaderValues($0)}) ?? nil
+            headers["Host"] = host.map({Header($0)}) ?? []
         }
     }
 
@@ -164,7 +164,7 @@ extension Request {
         }
 
         set(userAgent) {
-            headers["User-Agent"] = HeaderValues(userAgent)
+            headers["User-Agent"] = Header(userAgent)
         }
     }
 
@@ -174,7 +174,7 @@ extension Request {
         }
 
         set(authorization) {
-            headers["Authorization"] = HeaderValues(authorization)
+            headers["Authorization"] = Header(authorization)
         }
     }
 }

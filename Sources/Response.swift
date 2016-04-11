@@ -47,7 +47,7 @@ extension Response {
         self.upgrade = upgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = nil, upgrade: Upgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
         self.init(
             status: status,
             headers: headers,
@@ -86,7 +86,7 @@ extension Response {
         }
 
         set(cookies) {
-            headers["Set-Cookie"] = HeaderValues(cookies.map({$0.description}))
+            headers["Set-Cookie"] = Header(cookies.map({$0.description}))
         }
     }
 }

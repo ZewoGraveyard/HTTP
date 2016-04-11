@@ -29,7 +29,7 @@ extension Message {
         }
 
         set(contentType) {
-            headers["Content-Type"] = contentType.map({[$0.description]}) ?? nil
+            headers["Content-Type"] = contentType.map({[$0.description]}) ?? []
         }
     }
 
@@ -39,11 +39,11 @@ extension Message {
         }
 
         set(contentLength) {
-            headers["Content-Length"] = contentLength.map({[$0.description]}) ?? nil
+            headers["Content-Length"] = contentLength.map({[$0.description]}) ?? []
         }
     }
 
-    public var transferEncoding: HeaderValues {
+    public var transferEncoding: Header {
         get {
             return headers["Transfer-Encoding"] ?? []
         }
@@ -57,7 +57,7 @@ extension Message {
         return transferEncoding.contains({$0.lowercased().contains("chunked")})
     }
 
-    public var connection: HeaderValues {
+    public var connection: Header {
         get {
             return headers["Connection"] ?? []
         }
@@ -79,7 +79,7 @@ extension Message {
         return connection.contains({!$0.lowercased().contains("upgrade")})
     }
 
-    public var upgrade: HeaderValues {
+    public var upgrade: Header {
         get {
             return headers["Upgrade"] ?? []
         }
