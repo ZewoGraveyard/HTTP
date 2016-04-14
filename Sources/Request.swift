@@ -116,10 +116,10 @@ extension Request {
             var acceptedMediaTypes: [MediaType] = []
 
             if let acceptString = headers["Accept"].merged() {
-                let acceptedTypesString = acceptString.split(",")
+                let acceptedTypesString = acceptString.split(separator: ",")
 
                 for acceptedTypeString in acceptedTypesString {
-                    let acceptedTypeTokens = acceptedTypeString.split(";")
+                    let acceptedTypeTokens = acceptedTypeString.split(separator: ";")
 
                     if acceptedTypeTokens.count >= 1 {
                         let mediaTypeString = acceptedTypeTokens[0].trim()
