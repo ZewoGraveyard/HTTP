@@ -47,7 +47,7 @@ public final class BasicRoute: Route {
         self.fallback = fallback
     }
 
-    public func addAction( method: Method, action: Responder) {
+    public func addAction(method: Method, action: Responder) {
         actions[method] = action
     }
 
