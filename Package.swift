@@ -28,8 +28,7 @@ let package = Package(
     name: "HTTP",
     dependencies: [
         .Package(url: "https://github.com/Zewo/MediaType.git", majorVersion: 0, minor: 4),
-        .Package(url: "https://github.com/Zewo/String.git", majorVersion: 0, minor: 4),
         .Package(url: "https://github.com/Zewo/URI.git", majorVersion: 0, minor: 4),
-        .Package(url: "https://github.com/Open-Swift/S4.git", majorVersion: 0, minor: 3),
+        .Package(url: "https://github.com/open-swift/S4.git", majorVersion: 0, minor: 3),
     ]
 )

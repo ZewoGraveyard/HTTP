@@ -1,7 +1,7 @@
 public protocol Router: Responder {
     var routes: [Route] { get }
     var fallback: Responder { get }
-    func match(request: Request) -> Route?
+    func match(_ request: Request) -> Route?
 }
 
 extension Router {
@@ -20,7 +20,7 @@ public protocol Route: Responder {
 public protocol RouteMatcher {
     var routes: [Route] { get }
     init(routes: [Route])
-    func match(request: Request) -> Route?
+    func match(_ request: Request) -> Route?
 }
 
 extension Route {
@@ -47,7 +47,7 @@ public final class BasicRoute: Route {
         self.fallback = fallback
     }
 
-    public func addAction(method method: Method, action: Responder) {
+    public func addAction( method: Method, action: Responder) {
         actions[method] = action
     }
 

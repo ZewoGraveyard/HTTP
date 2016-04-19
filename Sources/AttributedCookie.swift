@@ -108,10 +108,10 @@ extension AttributedCookie: CustomStringConvertible {
 }
 
 extension AttributedCookie {
-    public static func parse(string: String) -> AttributedCookie? {
-        let cookieStringTokens = string.split(";")
+    public static func parse(_ string: String) -> AttributedCookie? {
+        let cookieStringTokens = string.split(separator: ";")
 
-        let cookieTokens = cookieStringTokens[0].split("=")
+        let cookieTokens = cookieStringTokens[0].split(separator: "=")
 
         if cookieTokens.count != 2 {
             return nil
@@ -123,7 +123,7 @@ extension AttributedCookie {
         var attributes: [CaseInsensitiveString: String] = [:]
 
         for i in 1 ..< cookieStringTokens.count {
-            let attributeTokens = cookieStringTokens[i].split("=")
+            let attributeTokens = cookieStringTokens[i].split(separator: "=")
 
             if attributeTokens.count > 2 {
                 return nil
