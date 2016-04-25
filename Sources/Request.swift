@@ -23,21 +23,21 @@
 // SOFTWARE.
 
 extension Request {
-    public typealias Upgrade = (Response, Stream) throws -> Void
+    public typealias DidUpgrade = (Response, Stream) throws -> Void
 
-    public var upgrade: Upgrade? {
+    public var didUpgrade: DidUpgrade? {
         get {
-            return storage["request-upgrade"] as? Upgrade
+            return storage["request-upgrade"] as? DidUpgrade
         }
 
-        set(upgrade) {
-            storage["request-upgrade"] = upgrade
+        set(didUpgrade) {
+            storage["request-upgrade"] = didUpgrade
         }
     }
 }
 
 extension Request {
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, upgrade: Upgrade?) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
         self.init(
             method: method,
             uri: uri,
@@ -45,10 +45,10 @@ extension Request {
             body: body
         )
 
-        self.upgrade = upgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade?) {
         self.init(
             method: method,
             uri: uri,
@@ -56,46 +56,46 @@ extension Request {
             body: body
         )
 
-        self.upgrade = upgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
             headers: headers,
             body: body.data,
-            upgrade: upgrade
+            didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
             headers: headers,
             body: body,
-            upgrade: upgrade
+            didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .get, uri: String, headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) throws {
         try self.init(
             method: method,
             uri: uri,
             headers: headers,
             body: body.data,
-            upgrade: upgrade
+            didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Stream, upgrade: Upgrade? = nil) throws {
+    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
             headers: headers,
             body: body,
-            upgrade: upgrade
+            didUpgrade: didUpgrade
         )
     }
 }

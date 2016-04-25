@@ -23,46 +23,46 @@
 // SOFTWARE.
 
 extension Response {
-    public typealias OnUpgrade = (Request, Stream) throws -> Void
+    public typealias DidUpgrade = (Request, Stream) throws -> Void
 
-    public var onUpgrade: OnUpgrade? {
+    public var didUpgrade: DidUpgrade? {
         get {
-            return storage["response-connection-upgrade"] as? OnUpgrade
+            return storage["response-connection-upgrade"] as? DidUpgrade
         }
 
-        set(onUpgrade) {
-            storage["response-connection-upgrade"] = onUpgrade
+        set(didUpgrade) {
+            storage["response-connection-upgrade"] = didUpgrade
         }
     }
 }
 
 extension Response {
-    public init(status: Status = .ok, headers: Headers = [:], body: Stream, onUpgrade: OnUpgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
         self.init(
             status: status,
             headers: headers,
             body: body
         )
 
-        self.onUpgrade = onUpgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), onUpgrade: OnUpgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade?) {
         self.init(
             status: status,
             headers: headers,
             body: body
         )
 
-        self.onUpgrade = onUpgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, onUpgrade: OnUpgrade? = nil) {
+    public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
             body: body.data,
-            onUpgrade: onUpgrade
+            didUpgrade: didUpgrade
         )
     }
 }
