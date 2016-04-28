@@ -44,18 +44,7 @@ extension Header: CustomStringConvertible {
 
 extension Header {
     public func merged() -> String? {
-        if values.isEmpty {
-            return nil
-        }
-
-        var string = ""
-        for (index, value) in values.enumerated() {
-            if index > 0 {
-                string += ", "
-            }
-            string += value
-        }
-        return string
+        return values.isEmpty ? nil : values.joined(separator: ", ")
     }
 }
 
