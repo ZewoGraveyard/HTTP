@@ -23,46 +23,46 @@
 // SOFTWARE.
 
 extension Response {
-    public typealias Upgrade = (Request, Stream) throws -> Void
+    public typealias DidUpgrade = (Request, Stream) throws -> Void
 
-    public var upgrade: Upgrade? {
+    public var didUpgrade: DidUpgrade? {
         get {
-            return storage["response-connection-upgrade"] as? Upgrade
+            return storage["response-connection-upgrade"] as? DidUpgrade
         }
 
-        set(upgrade) {
-            storage["response-connection-upgrade"] = upgrade
+        set(didUpgrade) {
+            storage["response-connection-upgrade"] = didUpgrade
         }
     }
 }
 
 extension Response {
-    public init(status: Status = .ok, headers: Headers = [:], body: Stream, upgrade: Upgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
         self.init(
             status: status,
             headers: headers,
             body: body
         )
 
-        self.upgrade = upgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), upgrade: Upgrade?) {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade?) {
         self.init(
             status: status,
             headers: headers,
             body: body
         )
 
-        self.upgrade = upgrade
+        self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, upgrade: Upgrade? = nil) {
+    public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) {
         self.init(
             status: status,
             headers: headers,
             body: body.data,
-            upgrade: upgrade
+            didUpgrade: didUpgrade
         )
     }
 }
