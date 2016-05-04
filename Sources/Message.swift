@@ -25,21 +25,21 @@
 extension Message {
     public var contentType: MediaType? {
         get {
-            return headers["Content-Type"].first.flatMap({try? MediaType(string: $0)})
+            return headers["Content-Type"].first.flatMap{try? MediaType(string: $0)}
         }
 
         set(contentType) {
-            headers["Content-Type"] = contentType.map({[$0.description]}) ?? []
+            headers["Content-Type"] = contentType.map{[$0.description]} ?? []
         }
     }
 
     public var contentLength: Int? {
         get {
-            return headers["Content-Length"].first.flatMap({Int($0)})
+            return headers["Content-Length"].first.flatMap{Int($0)}
         }
 
         set(contentLength) {
-            headers["Content-Length"] = contentLength.map({[$0.description]}) ?? []
+            headers["Content-Length"] = contentLength.map{[$0.description]} ?? []
         }
     }
 
@@ -54,7 +54,7 @@ extension Message {
     }
 
     public var isChunkEncoded: Bool {
-        return transferEncoding.contains({$0.lowercased().contains("chunked")})
+        return transferEncoding.contains{$0.lowercased().contains("chunked")}
     }
 
     public var connection: Header {
@@ -69,14 +69,14 @@ extension Message {
 
     public var isKeepAlive: Bool {
         if version.minor == 0 {
-            return connection.contains({$0.lowercased().contains("keep-alive")})
+            return connection.contains{$0.lowercased().contains("keep-alive")}
         }
 
-        return connection.contains({!$0.lowercased().contains("close")})
+        return connection.contains{!$0.lowercased().contains("close")}
     }
 
     public var isUpgrade: Bool {
-        return connection.contains({!$0.lowercased().contains("upgrade")})
+        return connection.contains{!$0.lowercased().contains("upgrade")}
     }
 
     public var upgrade: Header {
