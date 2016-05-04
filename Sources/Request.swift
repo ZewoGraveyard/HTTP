@@ -189,16 +189,6 @@ extension Request {
             storage["pathParameters"] = pathParameters
         }
     }
-
-    public var id: String? {
-        get {
-            return pathParameters["id"]
-        }
-
-        set(id) {
-            pathParameters["id"] = id
-        }
-    }
 }
 
 extension Request: CustomStringConvertible {
