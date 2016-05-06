@@ -111,9 +111,7 @@ extension AttributedCookie {
     public static func parse(_ string: String) -> AttributedCookie? {
         let cookieStringTokens = string.split(separator: ";")
 
-        let cookieTokens = cookieStringTokens[0].split(separator: "=")
-
-        if cookieTokens.count != 2 {
+        guard let cookieTokens = cookieStringTokens.first?.split(separator: "=") where cookieTokens.count == 2 else {
             return nil
         }
 
@@ -125,17 +123,16 @@ extension AttributedCookie {
         for i in 1 ..< cookieStringTokens.count {
             let attributeTokens = cookieStringTokens[i].split(separator: "=")
 
-            if attributeTokens.count > 2 {
-                return nil
-            }
-
-            if attributeTokens.count == 1 {
-                attributes[CaseInsensitiveString(attributeTokens[0].trim())] = ""
-            } else {
-                attributes[CaseInsensitiveString(attributeTokens[0].trim())] = attributeTokens[1].trim()
+            switch attributeTokens.count {
+                case 1:
+                    attributes[CaseInsensitiveString(attributeTokens[0].trim())] = ""
+                case 2:
+                    attributes[CaseInsensitiveString(attributeTokens[0].trim())] = attributeTokens[1].trim()
+                default:
+                    return nil
             }
         }
-        
+
         return AttributedCookie(name: name, value: value, attributes: attributes)
     }
 }
