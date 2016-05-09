@@ -61,11 +61,13 @@ class MessageTests: XCTestCase {
         var response = Response()
         response.cookies.insert(AttributedCookie(name: "server", value: "zewo"))
         response.cookies.insert(AttributedCookie(name: "lang", value: "swift"))
+        let cookie0 = response.headers["Set-Cookie"][0]
+        let cookie1 = response.headers["Set-Cookie"][1]
         XCTAssert(
-            (response.headers["Set-Cookie"][0] ==  "lang=swift" &&
-            response.headers["Set-Cookie"][1] ==  "server=zewo") ||
-            (response.headers["Set-Cookie"][0] ==  "server=zewo" &&
-            response.headers["Set-Cookie"][1] ==  "lang=swift")
+            ( cookie0 ==  "lang=swift" &&
+            cookie1 ==  "server=zewo") ||
+            (cookie0 ==  "server=zewo" &&
+            cookie1 ==  "lang=swift")
         )
     }
 }
