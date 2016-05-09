@@ -5,7 +5,7 @@ public protocol Router: Responder {
 }
 
 extension Router {
-    public func respond(request: Request) throws -> Response {
+    public func respond(to request: Request) throws -> Response {
         let responder = match(request) ?? fallback
         return try responder.respond(to: request)
     }
@@ -53,5 +53,11 @@ public final class BasicRoute: Route {
 
     public static let defaultFallback = BasicResponder { _ in
         Response(status: .methodNotAllowed)
+    }
+}
+
+extension BasicRoute: CustomStringConvertible {
+    public var description: String {
+        return Array(actions.keys).map({String($0) + " " + path}).joined(separator: ", ")
     }
 }

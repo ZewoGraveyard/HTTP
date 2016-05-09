@@ -25,27 +25,27 @@
 extension Message {
     public var contentType: MediaType? {
         get {
-            return headers["Content-Type"].first.flatMap({try? MediaType(string: $0)})
+            return headers["Content-Type"].flatMap({try? MediaType(string: $0)})
         }
 
         set(contentType) {
-            headers["Content-Type"] = contentType.map({[$0.description]}) ?? []
+            headers["Content-Type"] = contentType.map({$0.description})
         }
     }
 
     public var contentLength: Int? {
         get {
-            return headers["Content-Length"].first.flatMap({Int($0)})
+            return headers["Content-Length"].flatMap({Int($0)})
         }
 
         set(contentLength) {
-            headers["Content-Length"] = contentLength.map({[$0.description]}) ?? []
+            headers["Content-Length"] = contentLength.map({$0.description})
         }
     }
 
-    public var transferEncoding: Header {
+    public var transferEncoding: String? {
         get {
-            return headers["Transfer-Encoding"] ?? []
+            return headers["Transfer-Encoding"]
         }
 
         set(transferEncoding) {
@@ -54,12 +54,12 @@ extension Message {
     }
 
     public var isChunkEncoded: Bool {
-        return transferEncoding.contains({$0.lowercased().contains("chunked")})
+        return transferEncoding?.lowercased() == "chunked"
     }
 
-    public var connection: Header {
+    public var connection: String? {
         get {
-            return headers["Connection"] ?? []
+            return headers["Connection"]
         }
 
         set(connection) {
@@ -69,19 +69,19 @@ extension Message {
 
     public var isKeepAlive: Bool {
         if version.minor == 0 {
-            return connection.contains({$0.lowercased().contains("keep-alive")})
+            return connection?.lowercased() == "keep-alive"
         }
 
-        return connection.contains({!$0.lowercased().contains("close")})
+        return connection?.lowercased() == "close"
     }
 
     public var isUpgrade: Bool {
-        return connection.contains({!$0.lowercased().contains("upgrade")})
+        return connection?.lowercased() == "upgrade"
     }
 
-    public var upgrade: Header {
+    public var upgrade: String? {
         get {
-            return headers["Upgrade"] ?? []
+            return headers["Upgrade"]
         }
 
         set(upgrade) {
