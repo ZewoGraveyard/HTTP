@@ -27,11 +27,11 @@ extension Request {
 
     public var didUpgrade: DidUpgrade? {
         get {
-            return storage["request-upgrade"] as? DidUpgrade
+            return storage["request-connection-upgrade"] as? DidUpgrade
         }
 
         set(didUpgrade) {
-            storage["request-upgrade"] = didUpgrade
+            storage["request-connection-upgrade"] = didUpgrade
         }
     }
 }
