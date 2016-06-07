@@ -77,20 +77,6 @@ extension Response {
     }
 }
 
-extension Response {
-    public var cookies: Set<AttributedCookie> {
-        get {
-            return headers["Set-Cookie"].reduce(Set<AttributedCookie>()) { cookies, header in
-                AttributedCookie.parse(header).map({cookies.union([$0])}) ?? cookies
-            }
-        }
-
-        set(cookies) {
-            headers["Set-Cookie"] = Header(cookies.map({$0.description}))
-        }
-    }
-}
-
 extension Response: CustomStringConvertible {
     public var statusLineDescription: String {
         return "HTTP/1.1 " + statusCode.description + " " + reasonPhrase + "\n"

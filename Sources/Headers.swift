@@ -26,8 +26,8 @@ extension Headers: CustomStringConvertible {
     public var description: String {
         var string = ""
 
-        for (header, values) in headers {
-            string += values.reduce("", combine: { $0 + "\(header): \($1)\n"})
+        for (header, value) in headers {
+            string += "\(header): \(value)\n"
         }
 
         return string
