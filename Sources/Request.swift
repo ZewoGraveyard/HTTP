@@ -105,7 +105,7 @@ extension Request {
         return uri.path
     }
 
-    public var query: Query {
+    public var query: [String: [String?]] {
         return uri.query
     }
 }
