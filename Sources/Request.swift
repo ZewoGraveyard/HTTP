@@ -115,7 +115,7 @@ extension Request {
         get {
             var acceptedMediaTypes: [MediaType] = []
 
-            if let acceptString = headers["Accept"].merged() {
+            if let acceptString = headers["Accept"] {
                 let acceptedTypesString = acceptString.split(separator: ",")
 
                 for acceptedTypeString in acceptedTypesString {
@@ -134,47 +134,49 @@ extension Request {
         }
 
         set(accept) {
-            headers["Accept"] = Header(merging: accept.map({"\($0.type)/\($0.subtype)"}))
+            headers["Accept"] = accept.map({"\($0.type)/\($0.subtype)"}).joined(separator: ", ")
         }
     }
 
-    public var cookies: Set<Cookie> {
-        get {
-            return headers["Cookie"].merged().flatMap(Cookie.parse) ?? []
-        }
+    // Waiting on removal of cookies at S4
 
-        set(cookies) {
-            headers["Cookie"] = Header(merging: cookies.map({$0.description}))
-        }
-    }
+    // public var cookies: Set<Cookie> {
+    //     get {
+    //         return headers["Cookie"].merged().flatMap(Cookie.parse) ?? []
+    //     }
+
+    //     set(cookies) {
+    //         headers["Cookie"] = Header(merging: cookies.map({$0.description}))
+    //     }
+    // }
 
     public var host: String? {
         get {
-            return headers["Host"].first
+            return headers["Host"]
         }
 
         set(host) {
-            headers["Host"] = host.map({Header($0)}) ?? []
+            headers["Host"] = host
         }
     }
 
     public var userAgent: String? {
         get {
-            return headers["User-Agent"].first
+            return headers["User-Agent"]
         }
 
         set(userAgent) {
-            headers["User-Agent"] = Header(userAgent)
+            headers["User-Agent"] = userAgent
         }
     }
 
     public var authorization: String? {
         get {
-            return headers["Authorization"].first
+            return headers["Authorization"]
         }
 
         set(authorization) {
-            headers["Authorization"] = Header(authorization)
+            headers["Authorization"] = authorization
         }
     }
 }
