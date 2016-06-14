@@ -37,30 +37,51 @@ extension Response {
 }
 
 extension Response {
-    public init(status: Status = .ok, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
+    public init(version: Version = Version(major: 1, minor: 1),
+                status: Status = .ok,
+                headers: Headers = [:],
+                cookieHeaders: Set<String> = [],
+                body: Stream,
+                didUpgrade: DidUpgrade?) {
         self.init(
+            version: version,
             status: status,
             headers: headers,
-            body: body
+            cookieHeaders: cookieHeaders,
+            body: .receiver(body)
         )
 
         self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade?) {
+    public init(version: Version = Version(major: 1, minor: 1),
+                status: Status = .ok,
+                headers: Headers = [:],
+                cookieHeaders: Set<String> = [],
+                body: Data = Data(),
+                didUpgrade: DidUpgrade? = nil) {
         self.init(
+            version: version,
             status: status,
             headers: headers,
-            body: body
+            cookieHeaders: cookieHeaders,
+            body: .buffer(body)
         )
 
         self.didUpgrade = didUpgrade
     }
 
-    public init(status: Status = .ok, headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) {
+    public init(version: Version = Version(major: 1, minor: 1),
+                status: Status = .ok,
+                headers: Headers = [:],
+                cookieHeaders: Set<String> = [],
+                body: DataConvertible,
+                didUpgrade: DidUpgrade? = nil) {
         self.init(
+            version: version,
             status: status,
             headers: headers,
+            cookieHeaders: cookieHeaders,
             body: body.data,
             didUpgrade: didUpgrade
         )

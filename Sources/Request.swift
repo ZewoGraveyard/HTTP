@@ -37,62 +37,98 @@ extension Request {
 }
 
 extension Request {
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
+    public init(method: Method = .get,
+                uri: URI = URI(path: "/"),
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: Stream,
+                didUpgrade: DidUpgrade?) {
         self.init(
             method: method,
             uri: uri,
+            version: version,
             headers: headers,
-            body: body
+            body: .receiver(body)
         )
 
         self.didUpgrade = didUpgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade?) {
+    public init(method: Method = .get,
+                uri: URI = URI(path: "/"),
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: Data = Data(),
+                didUpgrade: DidUpgrade?) {
         self.init(
             method: method,
             uri: uri,
+            version: version,
             headers: headers,
-            body: body
+            body: .buffer(body)
         )
 
         self.didUpgrade = didUpgrade
     }
 
-    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) {
+    public init(method: Method = .get,
+                uri: URI = URI(path: "/"),
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: DataConvertible,
+                didUpgrade: DidUpgrade? = nil) {
         self.init(
             method: method,
             uri: uri,
+            version: version,
             headers: headers,
             body: body.data,
             didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Data = Data(), didUpgrade: DidUpgrade? = nil) throws {
+    public init(method: Method = .get,
+                uri: String,
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: Data = Data(),
+                didUpgrade: DidUpgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
+            version: version,
             headers: headers,
             body: body,
             didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: DataConvertible, didUpgrade: DidUpgrade? = nil) throws {
+    public init(method: Method = .get,
+                uri: String,
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: DataConvertible,
+                didUpgrade: DidUpgrade? = nil) throws {
         try self.init(
             method: method,
             uri: uri,
+            version: version,
             headers: headers,
             body: body.data,
             didUpgrade: didUpgrade
         )
     }
 
-    public init(method: Method = .get, uri: String, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade? = nil) throws {
+    public init(method: Method = .get,
+                uri: String,
+                version: Version = Version(major: 1, minor: 1),
+                headers: Headers = [:],
+                body: Stream,
+                didUpgrade: DidUpgrade? = nil) throws {
         self.init(
             method: method,
             uri: try URI(uri),
+            version: version,
             headers: headers,
             body: body,
             didUpgrade: didUpgrade
@@ -105,7 +141,7 @@ extension Request {
         return uri.path
     }
 
-    public var query: [String: [String?]] {
+    public var query: String? {
         return uri.query
     }
 }
