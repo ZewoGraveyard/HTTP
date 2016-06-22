@@ -1,10 +1,10 @@
-public protocol Router: Responder {
+public protocol RouterProtocol: Responder {
     var routes: [Route] { get }
     var fallback: Responder { get }
     func match(_ request: Request) -> Route?
 }
 
-extension Router {
+extension RouterProtocol {
     public func respond(request: Request) throws -> Response {
         let responder = match(request) ?? fallback
         return try responder.respond(to: request)
