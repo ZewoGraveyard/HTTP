@@ -37,6 +37,66 @@ extension Response {
 }
 
 extension Response {
+    public init(status: Status = .ok, headers: Headers = [:], body: Data = []) {
+        self.init(
+            version: Version(major: 1, minor: 1),
+            status: status,
+            headers: headers,
+            cookieHeaders: [],
+            body: .buffer(body)
+        )
+
+        self.headers["Content-Length"] = body.count.description
+    }
+
+    public init(status: Status = .ok, headers: Headers = [:], body: Stream) {
+        self.init(
+            version: Version(major: 1, minor: 1),
+            status: status,
+            headers: headers,
+            cookieHeaders: [],
+            body: .receiver(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(status: Status = .ok, headers: Headers = [:], body: (SendingStream) throws -> Void) {
+        self.init(
+            version: Version(major: 1, minor: 1),
+            status: status,
+            headers: headers,
+            cookieHeaders: [],
+            body: .sender(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(status: Status = .ok, headers: Headers = [:], body: AsyncStream) {
+        self.init(
+            version: Version(major: 1, minor: 1),
+            status: status,
+            headers: headers,
+            cookieHeaders: [],
+            body: .asyncReceiver(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(status: Status = .ok, headers: Headers = [:], body: (AsyncSendingStream, ((Void) throws -> Void) -> Void) -> Void) {
+        self.init(
+            version: Version(major: 1, minor: 1),
+            status: status,
+            headers: headers,
+            cookieHeaders: [],
+            body: .asyncSender(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
     public init(status: Status = .ok, headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
         self.init(
             status: status,

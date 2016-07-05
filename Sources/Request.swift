@@ -37,6 +37,66 @@ extension Request {
 }
 
 extension Request {
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Data = []) {
+        self.init(
+            method: method,
+            uri: uri,
+            version: Version(major: 1, minor: 1),
+            headers: headers,
+            body: .buffer(body)
+        )
+
+        self.headers["Content-Length"] = body.count.description
+    }
+
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream) {
+        self.init(
+            method: method,
+            uri: uri,
+            version: Version(major: 1, minor: 1),
+            headers: headers,
+            body: .receiver(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: (SendingStream) throws -> Void) {
+        self.init(
+            method: method,
+            uri: uri,
+            version: Version(major: 1, minor: 1),
+            headers: headers,
+            body: .sender(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: AsyncStream) {
+        self.init(
+            method: method,
+            uri: uri,
+            version: Version(major: 1, minor: 1),
+            headers: headers,
+            body: .asyncReceiver(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
+    public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: (AsyncSendingStream, ((Void) throws -> Void) -> Void) -> Void) {
+        self.init(
+            method: method,
+            uri: uri,
+            version: Version(major: 1, minor: 1),
+            headers: headers,
+            body: .asyncSender(body)
+        )
+
+        self.headers["Transfer-Encoding"] = "chunked"
+    }
+
     public init(method: Method = .get, uri: URI = URI(path: "/"), headers: Headers = [:], body: Stream, didUpgrade: DidUpgrade?) {
         self.init(
             method: method,
@@ -105,7 +165,7 @@ extension Request {
         return uri.path
     }
 
-    public var query: [String: [String?]] {
+    public var query: String? {
         return uri.query
     }
 }
