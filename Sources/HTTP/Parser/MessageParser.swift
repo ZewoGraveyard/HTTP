@@ -92,16 +92,14 @@ public final class MessageParser {
     }
     
     public func parse(_ from: UnsafeBufferPointer<UInt8>) throws -> [Message] {
-        if !from.isEmpty {
-            let processedCount = from.baseAddress!.withMemoryRebound(to: Int8.self, capacity: from.count) {
-                return http_parser_execute(&self.parser, &self.parserSettings, $0, from.count)
-            }
-
-            guard processedCount == from.count else {
-                throw MessageParserError(parser.http_errno)
-            }
+        let processedCount = from.baseAddress!.withMemoryRebound(to: Int8.self, capacity: from.count) {
+            return http_parser_execute(&self.parser, &self.parserSettings, $0, from.count)
         }
-        
+
+        guard processedCount == from.count else {
+            throw MessageParserError(parser.http_errno)
+        }
+    
         let parsed = messages
         messages = []
         return parsed
